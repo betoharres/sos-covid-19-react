@@ -1,4 +1,5 @@
 # Revealing Sars-CoV-2
+
 <br />
 <p align="center">
   <img width="353" height="450" src="./JoshCaudwell.jpg?sanitize=true"
@@ -16,9 +17,11 @@
 </p>
 
 ## Mission
+
 Assist at tracing where `Sars-CoV-2` could be by connecting people to doctors.
 
 ## Why?
+
 The biggest challenge to contain the spread of the virus is to know where it
 currently is. That could be done through testing, but I've seen most countries
 struggling to supply such important thing.  
@@ -29,6 +32,7 @@ treated or tested while the population awaits for federal gov to setup physical
 test spots.
 
 ## How?
+
 A mobile webapp showing a map with the approximate location of the reportings
 and their current state with privacy in mind to both parties.  
 People will be able to enter their symptoms with their mobile phone number.
@@ -48,15 +52,18 @@ Each new report can have five states:
 Doctors will need to register to be able to change the record's state.
 
 ## When?
-Time is our enemy(along with the virus), we need to act now otherwise or the 
+
+Time is our enemy(along with the virus), we need to act now otherwise or the
 damage will be unrecoverable. April 3 is my goal to have this working.  
 Any type of help is welcome.
 
 ## Goals
+
 1. Find more people to help the project achieve it's mission.
 2. Make this service known to regular people.
 3. Reach doctors to contribute with calls to pacients.
 
 ## Mantra-like videos to remember why we do this:
+
 https://news.sky.com/story/coronavirus-they-call-it-the-apocalypse-inside-italys-hardest-hit-hospital-11960597
 https://www.nytimes.com/2020/03/25/nyregion/nyc-coronavirus-hospitals.html
