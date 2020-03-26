@@ -4,6 +4,8 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+import 'typeface-roboto'
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
