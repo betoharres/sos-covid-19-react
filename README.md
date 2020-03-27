@@ -18,8 +18,7 @@
 
 ## Missão
 
-Auxiliar a identificar onde o `Sars-CoV-2` poderia estar conectando pessoas com
-médicos.
+Auxiliar no reconhecimento e isolamento de casos de `COVID-19` conectando pessoascom médicos.
 
 ## Por quê?
 
