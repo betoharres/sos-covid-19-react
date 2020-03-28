@@ -22,16 +22,18 @@ const points = mock.map(({ id, lat, lng, phone, state }) => ({
 }))
 
 function App() {
-  const { current: mapRef } = useRef()
-  const { currentLocation } = useLocation()
+  const mapRef = useRef()
+  const { currentLocation, hasLocation } = useLocation()
   const [viewport, setViewport] = useState({
     latitude: -30.018486,
     longitude: -51.13534,
     width: '100vw',
     height: '100vh',
-    zoom: 12,
+    zoom: 11,
   })
-  const bounds = mapRef ? mapRef.getMap().getBounds().toArray().flat() : null
+  const bounds =
+    mapRef.current && mapRef.current.getMap().getBounds().toArray().flat()
+
   const { clusters } = useSupercluster({
     points,
     bounds,
@@ -39,11 +41,31 @@ function App() {
     options: { radius: 75, maxZoom: 20 },
   })
 
+  function setMapRef(ref) {
+    mapRef.current = ref
+  }
+
+  function onLoad() {
+    if (hasLocation) {
+      const { latitude, longitude } = currentLocation
+      setViewport({
+        ...viewport,
+        latitude,
+        longitude,
+        transitionInterpolator: new FlyToInterpolator({
+          speed: 2,
+        }),
+        transitionDuration: 'auto',
+      })
+    }
+  }
+
   return (
     <ReactMapGL
       {...viewport}
-      ref={mapRef}
       maxZoom={20}
+      onLoad={onLoad}
+      ref={setMapRef}
       onViewportChange={setViewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
     />
