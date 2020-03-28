@@ -8,16 +8,16 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "add": "^2.0.6",
-    "google-map-react": "^1.1.7",
     "i18next": "^19.3.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.3.4",
+    "react-map-gl": "^5.2.3",
     "react-scripts": "3.4.1",
     "styled-components": "^5.0.1",
+    "supercluster": "^7.0.0",
     "typeface-roboto": "^0.0.75",
-    "yarn": "^1.22.4"
+    "use-supercluster": "^0.2.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -56,7 +56,8 @@
     "husky": "^4.2.3",
     "lint-staged": ">=10",
     "prettier": "^2.0.2",
-    "prettier-standard": "^16.2.1"
+    "prettier-standard": "^16.2.1",
+    "prop-types": "^15.7.2"
   },
   "husky": {
     "hooks": {

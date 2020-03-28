@@ -5,6 +5,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 
 import 'typeface-roboto'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 ReactDOM.render(
   <React.StrictMode>
