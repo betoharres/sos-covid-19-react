@@ -1,28 +1,36 @@
-/* eslint-disable */
 import React from 'react'
-import { string, number, func } from 'prop-types'
-import { Container } from './Marker.styles'
+import { number, bool } from 'prop-types'
+
+import Cluster from '../Cluster/Cluster'
 
 export default function Marker({
   id,
+  isCluster,
   lat,
   lng,
-  pointCount,
-  totalPointsCount,
-  phone,
-  state,
-  onClick,
+  clusterProperties: { mapPointsCount, clusteredPointsCount },
 }) {
-  return null
+  if (isCluster) {
+    return (
+      <Cluster
+        id={id}
+        mapPointsCount={mapPointsCount}
+        clusteredPointsCount={clusteredPointsCount}
+      />
+    )
+  } else {
+    return null
+  }
 }
 
 Marker.propTypes = {
-  id: number.isRequired,
+  id: number,
+  isCluster: bool,
   lat: number.isRequired,
   lng: number.isRequired,
-  pointCount: number.isRequired,
-  totalPointsCount: number.isRequired,
-  phone: string.isRequired,
-  state: string.isRequired,
-  onClick: func.isRequired,
+}
+
+Marker.defaultProps = {
+  id: null,
+  isCluster: false,
 }
