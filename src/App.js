@@ -94,6 +94,8 @@ function App() {
                 id={id}
                 lat={lat}
                 lng={lng}
+                state={state}
+                phone={phone}
                 isCluster={!!isCluster}
                 clusterProperties={{ clusteredPointsCount, mapPointsCount }}
               />
