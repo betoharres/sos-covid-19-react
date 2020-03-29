@@ -45,7 +45,7 @@ Marker.propTypes = {
   state: string,
   phone: string,
   clusterProperties: shape({
-    clusteredPointsCount: number.isRequired,
+    clusteredPointsCount: number,
     mapPointsCount: number.isRequired,
   }),
 }

@@ -3,12 +3,16 @@ import { PersonPinCircle as MUIPersonPinCircle } from '@material-ui/icons'
 
 export const Container = styled.div``
 
-export const PersonPinCircle = styled(MUIPersonPinCircle).attrs({
-  style: {
-    fontSize: 40,
-  },
-})`
-  ${({color}) => `
+export const PersonPinCircle = styled(MUIPersonPinCircle).attrs(
+  ({ color }) => ({
+    color: 'inherit',
+    style: {
+      fontSize: 40,
+      color,
+    },
+  })
+)`
+  ${({ color }) => `
     color: ${color};
     width: 20px;
     height: 20px;
