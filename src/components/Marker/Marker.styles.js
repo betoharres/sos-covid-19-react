@@ -13,5 +13,6 @@ export const PersonPinCircle = styled(MUIPersonPinCircle).attrs({
     width: 20px;
     height: 20px;
     font-size: 40px;
+    cursor: pointer;
 `}
 `
