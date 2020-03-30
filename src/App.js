@@ -21,6 +21,7 @@ function App({ reports }) {
   })
   const bounds =
     mapRef.current && mapRef.current.getMap().getBounds().toArray().flat()
+
   const points = reports.map(({ id, lat, lng, phone, state }) => ({
     type: 'Feature',
     properties: { reportId: id, phone, state },
@@ -34,7 +35,7 @@ function App({ reports }) {
     points,
     bounds,
     zoom: viewport.zoom,
-    options: { radius: 75, maxZoom: 20 },
+    options: { radius: 90, maxZoom: 17 },
   })
 
   function setMapRef(ref) {
@@ -61,8 +62,8 @@ function App({ reports }) {
   return (
     <ReactMapGL
       {...viewport}
-      maxZoom={20}
       ref={setMapRef}
+      maxZoom={17}
       onViewportChange={setViewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
     >
