@@ -26,9 +26,12 @@ O maior desafio para conter o vírus é sabendo onde ele está. Isto poderia ser
 feito através de testes, mas vejo que a maioria dos países estão com muita
 dificuldade para oferecer tal ajuda tão importante no momento.  
 Números oficiais refletem dias e talvez até semanas atrás, muitas vidas poderiam
-ser salvas se ao menos soubessémos onde seus sintomas comuns estão aparecendo
-neste momento, ou se tivéssemos médicos/enfermeiros voluntários guiando essas 
-pessoas com tratamento ou testando elas.
+ser salvas se: 
+- Soubéssemos onde seus sintomas comuns estão aparecendo
+neste momento 
+- Tivéssemos médicos/enfermeiros voluntários guiando essas 
+pessoas com tratamento recomendado 
+- Testando pessoas com sintomas.
 
 ## Como?
 
@@ -44,17 +47,17 @@ aparecendo.
 Cada novo registro pode ter 5 estados:
 
     - Esperando contato (estado inicial)
+    - Aguardando visita de um médico/efermeiro
     - Teste pendente (decidido por um médico/efermeiro)
     - Positivo (Infectado)
-    - Negativo (Não infectado)
-    - Descardado (Descartado por um médico/enfermeiro).
+    - Descartado (Concluído Através da visita e/ou falta de sintomas, ou teste negativo)
 
 
 Somente médicos/enfermeiros podem mudar o estado do registro.
 
 ## Quando?
 
-Tempo é o nosso inimigo(junto com o vírus), precisamos agir agora ou o dano será
+Tempo é o nosso inimigo(junto com o vírus). Precisamos agir agora ou o dano será
 irreversível.  
 03/04 é a minha meta para termos o projeto funcionando.
 Qualquer tipo de ajuda é bem-vinda.
