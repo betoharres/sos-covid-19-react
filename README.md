@@ -18,7 +18,7 @@
 
 ## Missão
 
-Auxiliar no reconhecimento e isolamento de casos de `COVID-19` conectando pessoascom médicos.
+Auxiliar no reconhecimento e isolamento de casos de `COVID-19` conectando pessoas com médicos.
 
 ## Por quê?
 
