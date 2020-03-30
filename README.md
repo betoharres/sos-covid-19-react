@@ -38,7 +38,7 @@ pessoas com tratamento recomendado
 Um site para celulares mostrando um mapa com a localização aproximada desses
 registros mantendo a privacidade tanto da pessoa e do voluntário.  
 As pessoas poderão criar um novo registro usando o seu número de celular.  
-A pessoa irá receber um código SMS para confirmar o registro para confirmar o
+A pessoa irá receber um código SMS para confirmar e o
 número inserido.  
 Médicos podem ver os números no mapa e ligar para essas pessoas para comecar
 algum tratamento, decidir se essas pessoas precisam ser testadas ou pelo menos
