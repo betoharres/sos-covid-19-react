@@ -20,3 +20,14 @@ export const PersonPinCircle = styled(MUIPersonPinCircle).attrs(
     cursor: pointer;
 `}
 `
+
+export const Circle = styled.span`
+  ${({ color }) => `
+    opacity: 0.6;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: ${color};
+  `}
+`

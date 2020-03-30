@@ -2,7 +2,7 @@ import React from 'react'
 import { number, bool, string, shape } from 'prop-types'
 import Cluster from '../Cluster/Cluster'
 
-import { PersonPinCircle } from './Marker.styles'
+import { Circle } from './Marker.styles'
 
 export default function Marker({
   id,
@@ -15,7 +15,9 @@ export default function Marker({
   function getMarkerColor(state) {
     switch(state) {
       case 'waiting':
-        return 'blue'
+        return 'grey'
+      case 'analising':
+        return 'lightblue'
       case 'testing':
         return 'orange'
       case 'infected':
@@ -35,7 +37,7 @@ export default function Marker({
       />
     )
   } else {
-    return <PersonPinCircle color={getMarkerColor(state)} />
+    return <Circle color={getMarkerColor(state)} />
   }
 }
 
