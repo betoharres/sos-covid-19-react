@@ -1,10 +1,11 @@
-/* eslint-disable */
 import React from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { Stepper, Step, StepLabel, Button } from '@material-ui/core'
 import { useStateList } from 'react-use'
 
 import Symptoms from './Symptoms/Symptoms'
+import RegisterPhoneNumber from './RegisterPhoneNumber/RegisterPhoneNumber'
+import ConfirmNumber from './ConfirmNumber/ConfirmNumber'
 import { Container, ActionContainer, StepContainer } from './NewRecord.styles'
 
 const steps = [
@@ -21,13 +22,19 @@ export default function NewRecord() {
   const [
     symptomsStep,
     registerPhoneNumberStep,
-    confirmPhoneNumerStep,
+    confirmNumberStep,
   ] = stepIndexes
 
   function getCurrentStepContent(currentStep) {
     switch (currentStep) {
       case symptomsStep:
         return <Symptoms />
+
+      case registerPhoneNumberStep:
+        return <RegisterPhoneNumber />
+
+      case confirmNumberStep:
+        return <ConfirmNumber />
 
       default:
         return <Symptoms />
@@ -46,9 +53,9 @@ export default function NewRecord() {
       <StepContainer>{getCurrentStepContent(activeStep)}</StepContainer>
       <ActionContainer>
         <Button onClick={prev}>{t('Voltar')}</Button>
-        {activeStep === confirmPhoneNumerStep ? (
+        {activeStep === confirmNumberStep ? (
           <Button onClick={next} variant="contained" color="secondary">
-            {t('Enviar')}
+            {t('Enviar Sintomas')}
           </Button>
         ) : (
           <Button onClick={next} variant="contained" color="primary">

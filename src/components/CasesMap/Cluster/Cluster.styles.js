@@ -11,5 +11,6 @@ export const Container = styled.div`
     align-items: center;
     width: ${10 + (clusteredPointsCount / mapPointsCount) * 20}px;
     height: ${10 + (clusteredPointsCount / mapPointsCount) * 20}px;
+    cursor: pointer;
   `}
 `
