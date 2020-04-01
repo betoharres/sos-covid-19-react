@@ -1,11 +1,12 @@
 import React from 'react'
+import { func } from 'prop-types'
 import { TextField, InputAdornment } from '@material-ui/core'
 import SmsIcon from '@material-ui/icons/Sms'
 import { useTranslation } from 'react-i18next'
 
 import { Container, Title, PhoneFieldView } from './ConfirmNumber.styles'
 
-export default function RegisterPhoneNumber() {
+export default function RegisterPhoneNumber({ handleOnChange }) {
   const { t } = useTranslation()
   return (
     <Container>
@@ -18,6 +19,7 @@ export default function RegisterPhoneNumber() {
           variant="outlined"
           type="number"
           placeholder="00000"
+          onChange={({ target: { value } }) => handleOnChange(value)}
           InputLabelProps={{
             shrink: true,
           }}
@@ -34,4 +36,6 @@ export default function RegisterPhoneNumber() {
   )
 }
 
-RegisterPhoneNumber.propTypes = {}
+RegisterPhoneNumber.propTypes = {
+  handleOnChange: func.isRequired,
+}

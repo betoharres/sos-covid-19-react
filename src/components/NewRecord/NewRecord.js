@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import { Stepper, Step, StepLabel, Button } from '@material-ui/core'
 import { useStateList } from 'react-use'
@@ -16,25 +16,24 @@ const steps = [
 const stepIndexes = [...Array(steps.length).keys()]
 
 export default function NewRecord() {
+  const [, setSymptoms] = useState(null)
+  const [, setPhone] = useState(null)
+  const [, setCode] = useState(null)
   const { currentIndex: activeStep, prev, next } = useStateList(stepIndexes)
   const { t } = useTranslation()
 
-  const [
-    symptomsStep,
-    registerPhoneNumberStep,
-    confirmNumberStep,
-  ] = stepIndexes
+  const [symptomsStep, registerPhoneNumberStep, confirmNumberStep] = stepIndexes
 
   function getCurrentStepContent(currentStep) {
     switch (currentStep) {
       case symptomsStep:
-        return <Symptoms />
+        return <Symptoms handleOnChange={setSymptoms} />
 
       case registerPhoneNumberStep:
-        return <RegisterPhoneNumber />
+        return <RegisterPhoneNumber handleOnChange={setPhone} />
 
       case confirmNumberStep:
-        return <ConfirmNumber />
+        return <ConfirmNumber handleOnChange={setCode} />
 
       default:
         return <Symptoms />
@@ -43,7 +42,7 @@ export default function NewRecord() {
 
   return (
     <Container>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((step) => (
           <Step key={step}>
             <StepLabel>{step}</StepLabel>

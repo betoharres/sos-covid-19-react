@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "i18next": "^19.3.3",
     "react": "^16.13.1",
+    "react-device-detect": "^1.11.14",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.3.4",
     "react-map-gl": "^5.2.3",
