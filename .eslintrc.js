@@ -36,6 +36,8 @@ module.exports = {
     'max-len': [ERROR, { code: 80, tabWidth: 2 }],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/jsx-curly-newline': OFF,
+    'react/jsx-handler-names': OFF,
     'comma-dangle': [
       ERROR,
       {

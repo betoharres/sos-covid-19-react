@@ -10,7 +10,7 @@ export default function RegisterPhoneNumber({ handleOnChange }) {
   const { t } = useTranslation()
   return (
     <Container>
-      <Title variant="h4" gutterBottom>
+      <Title variant="h5" gutterBottom>
         {t('Celular para contato')}
       </Title>
       <PhoneFieldView>

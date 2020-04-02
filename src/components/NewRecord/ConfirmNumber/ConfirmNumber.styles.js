@@ -13,6 +13,7 @@ export const Container = styled.div`
 export const PhoneFieldView = styled.div`
   flex-direction: row;
   margin-top: 15px;
+  max-width: 150px;
 `
 
 export const Title = styled(Typography)``

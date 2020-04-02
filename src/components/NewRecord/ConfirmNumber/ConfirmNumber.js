@@ -10,8 +10,8 @@ export default function RegisterPhoneNumber({ handleOnChange }) {
   const { t } = useTranslation()
   return (
     <Container>
-      <Title variant="h4" gutterBottom>
-        {t('Você irá receber um código por SMS')}
+      <Title variant="h5" gutterBottom>
+        {t('Confirme seu número com código enviado por SMS')}
       </Title>
       <PhoneFieldView>
         <TextField

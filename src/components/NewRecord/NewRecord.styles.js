@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 100vh;
   width: 100%;
   background-color: lightgrey;
-  padding: 20px;
+  margin: 0;
 `
 
 export const Typography = styled(MUITypography)`
