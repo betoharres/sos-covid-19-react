@@ -38,12 +38,12 @@ pessoas com tratamento recomendado
 Um site para celulares mostrando um mapa com a localização aproximada desses
 registros mantendo a privacidade tanto da pessoa e do voluntário.  
 As pessoas poderão criar um novo registro usando o seu número de celular.  
-A pessoa irá receber um código SMS para confirmar e o
+A pessoa irá receber um código SMS para confirmar o registro e o
 número inserido.  
-Médicos podem ver os números no mapa e ligar para essas pessoas para comecar
-algum tratamento, decidir se essas pessoas precisam ser testadas ou pelo menos
-reportarem para orgãos competentes onde provavelmente casos de `COVID-19` estão
-aparecendo.  
+Médicos podem ver os números no mapa e ligar para essas pessoas para iniciar
+o tratamento, decidir se essas pessoas precisam ser testadas ou pelo menos
+reportar para orgãos competentes onde provavelmente casos de `COVID-19` estão
+aparecendo.
 Cada novo registro pode ter 5 estados:
 
     - Esperando contato (estado inicial)
