@@ -59,7 +59,7 @@ Somente médicos/enfermeiros podem mudar o estado do registro.
 
 Tempo é o nosso inimigo(junto com o vírus). Precisamos agir agora ou o dano será
 irreversível.  
-03/04 é a minha meta para termos o projeto funcionando.
+05/04 é a minha meta para termos o projeto funcionando.
 Qualquer tipo de ajuda é bem-vinda.
 
 ## Metas
