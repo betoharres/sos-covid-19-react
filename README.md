@@ -78,6 +78,13 @@ Para visualizar o mapa, cria uma crie uma conta no mapbox e coloque a a chave em
 
 Crie uma conta no Mapbox: https://www.mapbox.com/
 
+# Slack 
+https://soscovid-19.slack.com
+
+Convites abertos:
+
+https://join.slack.com/t/soscovid-19/shared_invite/zt-dfmc8cz4-3ksiDqD9VElWC~6tlHzWkA
+
 ## Vídeos para lembrar porque fazemos isso:
 
 https://news.sky.com/story/coronavirus-they-call-it-the-apocalypse-inside-italys-hardest-hit-hospital-11960597
