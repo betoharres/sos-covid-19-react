@@ -75,6 +75,7 @@ Alguns components podem ser visualizados no storybook.
 
 Para visualizar o mapa, cria uma crie uma conta no mapbox e coloque a a chave em um arquivo `.env` no root do projeto:
 `REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah` 
+
 Crie uma conta no Mapbox: https://www.mapbox.com/
 
 ## Vídeos para lembrar porque fazemos isso:
