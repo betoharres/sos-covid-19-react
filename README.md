@@ -68,6 +68,14 @@ Qualquer tipo de ajuda é bem-vinda.
 2. Fazer o serviço conhecido para pessoas comuns.
 3. Registar maior número possível médicos voluntários.
 
+## Iniciando o projeto localmente:
+Alguns components podem ser visualizados no storybook.
+
+`$ yarn && yarn storybook` 
+
+Para visualizar o mapa, cria uma crie uma conta no mapbox e coloque a a chave em um arquivo `.env` no root do projeto:
+`REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah` 
+
 ## Vídeos para lembrar porque fazemos isso:
 
 https://news.sky.com/story/coronavirus-they-call-it-the-apocalypse-inside-italys-hardest-hit-hospital-11960597
