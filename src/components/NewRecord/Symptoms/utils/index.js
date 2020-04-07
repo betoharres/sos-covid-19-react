@@ -10,7 +10,8 @@ const symptomsKeys = {
 }
 
 export function formatSymptoms(symptoms) {
-  return symptoms.reduce((acc, symptom) => {
-    acc.concat({ [symptomsKeys[symptom]]: true })
-  }, [])
+  return Array.from(symptoms).reduce(
+    (acc, symptom) => ({ ...acc, [symptomsKeys[symptom]]: true }),
+    {}
+  )
 }

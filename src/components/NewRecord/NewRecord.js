@@ -20,6 +20,7 @@ const steps = [
 const stepIndexes = [...Array(steps.length).keys()]
 
 export default function NewRecord() {
+  const [isLoading, setIsLoading] = useState(false)
   const [symptoms, setSymptoms] = useState(null)
   const [phone, setPhone] = useState(null)
   const [code, setCode] = useState(null)
@@ -32,17 +33,23 @@ export default function NewRecord() {
   async function sendSymptoms() {
     const symptomsObj = formatSymptoms(symptoms)
     try {
+      setIsLoading(true)
       await postSymptoms({ ...symptomsObj, phone, ...currentLocation })
     } catch {
       alert(t('Não foi possível enviar seus sintomas. Tente novamente'))
+    } finally {
+      setIsLoading(false)
     }
   }
 
   async function sendConfirmationCode() {
     try {
+      setIsLoading(true)
       await postSymptoms({ code })
     } catch {
       alert(t('Não foi possível enviar o código SMS. Tente novamente'))
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -65,8 +72,8 @@ export default function NewRecord() {
         next()
         break
       case registerPhoneNumberStep:
+        await sendSymptoms()
         next()
-        sendSymptoms()
         break
       case confirmNumberStep:
         await sendConfirmationCode()
@@ -96,7 +103,12 @@ export default function NewRecord() {
             {t('Confirmar Número')}
           </Button>
         ) : (
-          <Button onClick={next} variant="contained" color="primary">
+          <Button
+            onClick={onPressNext}
+            disabled={isLoading}
+            variant="contained"
+            color="primary"
+          >
             {t('Próximo')}
           </Button>
         )}
