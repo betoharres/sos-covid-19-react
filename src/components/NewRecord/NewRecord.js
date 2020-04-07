@@ -9,7 +9,8 @@ import ConfirmNumber from './ConfirmNumber/ConfirmNumber'
 import { Container, ActionContainer, StepContainer } from './NewRecord.styles'
 
 import { useLocation } from '../../hooks'
-import { callAPI } from '../../api'
+import { postSymptoms } from '../../api'
+import { formatSymptoms } from './Symptoms/utils'
 
 const steps = [
   <Trans key={0}>Sintomas</Trans>,
@@ -22,39 +23,26 @@ export default function NewRecord() {
   const [symptoms, setSymptoms] = useState(null)
   const [phone, setPhone] = useState(null)
   const [code, setCode] = useState(null)
-  const { currentLocation, hasLocation, getCurrentPosition } = useLocation()
+  const { currentLocation } = useLocation()
   const { currentIndex: activeStep, prev, next } = useStateList(stepIndexes)
   const { t } = useTranslation()
 
   const [symptomsStep, registerPhoneNumberStep, confirmNumberStep] = stepIndexes
 
   async function sendSymptoms() {
-    const newRecord = {
-      symptoms,
-      phone,
-      location: currentLocation,
-    }
+    const symptomsObj = formatSymptoms(symptoms)
     try {
-      const { coords } = await getCurrentPosition()
-      try {
-        if (hasLocation) {
-          await callAPI('/sympots', 'POST', newRecord)
-        } else {
-          await callAPI('/sympots', 'POST', { newRecord, location: coords })
-        }
-      } catch (error) {
-        alert('Não foi possível enviar seus sintomas. Tente novamente')
-      }
+      await postSymptoms({ ...symptomsObj, phone, ...currentLocation })
     } catch {
-      alert('Não foi possível obter sua localização. Tente novamente')
+      alert(t('Não foi possível enviar seus sintomas. Tente novamente'))
     }
   }
 
   async function sendConfirmationCode() {
     try {
-      await callAPI('/confirm_code', 'POST', { code })
-    } catch (error) {
-      alert('Não foi possível enviar o código SMS. Tente novamente')
+      await postSymptoms({ code })
+    } catch {
+      alert(t('Não foi possível enviar o código SMS. Tente novamente'))
     }
   }
 
@@ -82,7 +70,6 @@ export default function NewRecord() {
         break
       case confirmNumberStep:
         await sendConfirmationCode()
-        alert('Sintomas enviados com sucesso')
         // TODO: redirects somewhere else
         break
       default:
@@ -101,7 +88,9 @@ export default function NewRecord() {
       </Stepper>
       <StepContainer>{getCurrentStepContent(activeStep)}</StepContainer>
       <ActionContainer>
-        <Button onClick={prev}>{t('Voltar')}</Button>
+        <Button disabled={activeStep === symptomsStep} onClick={prev}>
+          {t('Voltar')}
+        </Button>
         {activeStep === confirmNumberStep ? (
           <Button onClick={onPressNext} variant="contained" color="secondary">
             {t('Confirmar Número')}

@@ -32,3 +32,8 @@ export async function callAPI(endpoint, method = 'GET', body = null) {
     return Promise.reject(error)
   }
 }
+
+export async function postSymptoms(patient) {
+  const response = await callAPI('/patients', 'POST', { patient })
+  return response
+}

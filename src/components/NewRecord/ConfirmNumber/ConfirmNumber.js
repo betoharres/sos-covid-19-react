@@ -11,7 +11,7 @@ export default function RegisterPhoneNumber({ handleOnChange }) {
   return (
     <Container>
       <Title variant="h5" gutterBottom>
-        {t('Confirme seu número com código enviado por SMS')}
+        {t('Confirme seu número, um código foi enviado por SMS')}
       </Title>
       <PhoneFieldView>
         <TextField

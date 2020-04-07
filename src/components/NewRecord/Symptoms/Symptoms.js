@@ -43,9 +43,8 @@ export default function Symptoms({ handleOnChange }) {
                 inputProps={{ 'aria-labelledby': symptom }}
               />
             </ListItemIcon>
-            <ListItemText>{symptom}</ListItemText>
+            <ListItemText>{t(symptom)}</ListItemText>
           </ListItem>
-          {++index === symptoms.length && <Divider />}
         </div>
       ))}
     </Container>
