@@ -24,7 +24,7 @@ export default function NewRecord() {
   const [symptoms, setSymptoms] = useState(null)
   const [phone, setPhone] = useState(null)
   const [code, setCode] = useState(null)
-  const { currentLocation } = useLocation()
+  const { currentLocation, getCurrentPosition, hasLocation } = useLocation()
   const { currentIndex: activeStep, prev, next } = useStateList(stepIndexes)
   const { t } = useTranslation()
 
@@ -32,9 +32,19 @@ export default function NewRecord() {
 
   async function sendSymptoms() {
     const symptomsObj = formatSymptoms(symptoms)
+    setIsLoading(true)
     try {
-      setIsLoading(true)
-      await postSymptoms({ ...symptomsObj, phone, ...currentLocation })
+      const { latitude, longitude } = hasLocation
+        ? currentLocation
+        : await getCurrentPosition()
+      const params = {
+        ...symptomsObj,
+        latitude,
+        longitude,
+        phone: `+55${phone}`,
+      }
+      await postSymptoms(params)
+      next()
     } catch {
       alert(t('Não foi possível enviar seus sintomas. Tente novamente'))
     } finally {
@@ -73,7 +83,6 @@ export default function NewRecord() {
         break
       case registerPhoneNumberStep:
         await sendSymptoms()
-        next()
         break
       case confirmNumberStep:
         await sendConfirmationCode()
@@ -95,7 +104,10 @@ export default function NewRecord() {
       </Stepper>
       <StepContainer>{getCurrentStepContent(activeStep)}</StepContainer>
       <ActionContainer>
-        <Button disabled={activeStep === symptomsStep} onClick={prev}>
+        <Button
+          disabled={activeStep === symptomsStep || isLoading}
+          onClick={prev}
+        >
           {t('Voltar')}
         </Button>
         {activeStep === confirmNumberStep ? (
