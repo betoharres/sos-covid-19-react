@@ -73,10 +73,11 @@ Alguns components podem ser visualizados no storybook.
 
 `$ yarn && yarn storybook` 
 
-Para visualizar o mapa, cria uma crie uma conta no mapbox e coloque a a chave em um arquivo `.env` no root do projeto:
-`REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah` 
+Para visualizar o mapa, cria uma crie uma conta no mapbox(www.mapbox.com) e coloque a a chave em um arquivo `.env` no root do projeto:
+`REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah`  
 
-Crie uma conta no Mapbox: https://www.mapbox.com/
+Também no arquivo .env, coloque a url que o app vai fazer requisiçoes:  
+`REACT_APP_API_URL=http://localhost:8080`  
 
 # Slack 
 https://soscovid-19.slack.com
