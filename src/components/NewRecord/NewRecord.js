@@ -9,7 +9,7 @@ import ConfirmNumber from './ConfirmNumber/ConfirmNumber'
 import { Container, ActionContainer, StepContainer } from './NewRecord.styles'
 
 import { useLocation } from '../../hooks'
-import { postSymptoms } from '../../api'
+import { postSymptoms, postCode } from '../../api'
 import { formatSymptoms } from './Symptoms/utils'
 
 const steps = [
@@ -30,6 +30,10 @@ export default function NewRecord() {
 
   const [symptomsStep, registerPhoneNumberStep, confirmNumberStep] = stepIndexes
 
+  function setPhoneAndAddPrefix(text) {
+    return setPhone(`+55${text}`)
+  }
+
   async function sendSymptoms() {
     const symptomsObj = formatSymptoms(symptoms)
     setIsLoading(true)
@@ -37,12 +41,7 @@ export default function NewRecord() {
       const { latitude, longitude } = hasLocation
         ? currentLocation
         : await getCurrentPosition()
-      const params = {
-        ...symptomsObj,
-        latitude,
-        longitude,
-        phone: `+55${phone}`,
-      }
+      const params = { ...symptomsObj, latitude, longitude, phone }
       await postSymptoms(params)
       next()
     } catch {
@@ -55,7 +54,7 @@ export default function NewRecord() {
   async function sendConfirmationCode() {
     try {
       setIsLoading(true)
-      await postSymptoms({ code })
+      await postCode(phone, code)
     } catch {
       alert(t('Não foi possível enviar o código SMS. Tente novamente'))
     } finally {
@@ -68,7 +67,7 @@ export default function NewRecord() {
       case symptomsStep:
         return <Symptoms handleOnChange={setSymptoms} />
       case registerPhoneNumberStep:
-        return <RegisterPhoneNumber handleOnChange={setPhone} />
+        return <RegisterPhoneNumber handleOnChange={setPhoneAndAddPrefix} />
       case confirmNumberStep:
         return <ConfirmNumber handleOnChange={setCode} />
       default:

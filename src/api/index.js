@@ -37,3 +37,10 @@ export async function postSymptoms(patient) {
   const response = await callAPI('/patients', 'POST', { patient })
   return response
 }
+
+export async function postCode(number, code) {
+  const response = await callAPI('/phones/validate', 'POST', {
+    phone: { number, verification_code: code },
+  })
+  return response
+}
