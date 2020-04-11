@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useEffect } from 'react'
+import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react'
 import { array } from 'prop-types'
 import ReactMapGL, {
   Marker as MapBoxMarker,
@@ -19,8 +19,10 @@ import { PopoverView } from './CasesMap.styles'
 
 import { useLocation } from '../../hooks'
 import { stateColors } from '../../constants'
+import { fetchReports } from '../../api'
 
-function CasesMap({ reports }) {
+function CasesMap() {
+  const [markers, setMarkers] = useState([])
   const [popoverInfo, setPopoverInfo] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
   const mapRef = useRef()
@@ -35,14 +37,18 @@ function CasesMap({ reports }) {
   const bounds =
     mapRef.current && mapRef.current.getMap().getBounds().toArray().flat()
 
-  const points = reports.map(({ id, lat, lng, phone, state }) => ({
-    type: 'Feature',
-    properties: { reportId: id, phone, state },
-    geometry: {
-      type: 'Point',
-      coordinates: [parseFloat(lng), parseFloat(lat)],
-    },
-  }))
+  const points = useMemo(
+    () =>
+      markers.map(({ id, latitude, longitude, phone, aasm_state: state }) => ({
+        type: 'Feature',
+        properties: { reportId: id, phone, state },
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(longitude), parseFloat(latitude)],
+        },
+      })),
+    [markers]
+  )
 
   const { clusters, supercluster } = useSupercluster({
     points,
@@ -71,6 +77,20 @@ function CasesMap({ reports }) {
       updateLocation()
     }
   }, [currentLocation, hasLocation, updateLocation])
+
+  const loadMarkers = useCallback(async () => {
+    const { latitude, longitude } = currentLocation
+    const { zoom } = viewport
+    const params = { latitude, longitude, map_zoom: zoom }
+    const apiReports = await fetchReports(params)
+    setMarkers(apiReports)
+  }, [currentLocation, viewport])
+
+  useEffect(() => {
+    if (hasLocation) {
+      loadMarkers()
+    }
+  }, [loadMarkers, hasLocation])
 
   const mapPointsCount = useMemo(() => points.length, [points])
 

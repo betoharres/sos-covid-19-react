@@ -31,7 +31,7 @@ export default function NewRecord() {
   const [symptomsStep, registerPhoneNumberStep, confirmNumberStep] = stepIndexes
 
   function setPhoneAndAddPrefix(text) {
-    return setPhone(`+55${text}`)
+    setPhone(`+55${text}`)
   }
 
   async function sendSymptoms() {

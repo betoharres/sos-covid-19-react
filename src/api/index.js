@@ -1,5 +1,15 @@
 const API_URL = process.env.REACT_APP_API_URL
 
+export function parseObjectToParams(params) {
+  if (params) {
+    return Object.entries(params)
+      .map(([k, v]) => `${k}=${v}`)
+      .join('&')
+  } else {
+    return ''
+  }
+}
+
 async function parseResponse(response) {
   try {
     const responseJson = await response.json()
@@ -42,5 +52,11 @@ export async function postCode(number, code) {
   const response = await callAPI('/phones/validate', 'POST', {
     phone: { number, verification_code: code },
   })
+  return response
+}
+
+export async function fetchReports(params) {
+  const stringParams = parseObjectToParams(params)
+  const response = await callAPI(`/patients?${stringParams}`)
   return response
 }
