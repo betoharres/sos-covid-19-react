@@ -165,18 +165,20 @@ function CasesMap() {
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
-                {popoverInfo.map(({ reportId, phone, state }) => (
-                  <PopoverView key={`${reportId}`}>
-                    <ListItem button onClick={Function.prototype}>
-                      <ListItemAvatar>
-                        <Avatar
-                          style={{ backgroundColor: stateColors[state] }}
-                        />
-                      </ListItemAvatar>
-                      <ListItemText>{phone}</ListItemText>
-                    </ListItem>
-                  </PopoverView>
-                ))}
+                {popoverInfo.map(
+                  ({ reportId, phone: { number: phone }, state }) => (
+                    <PopoverView key={`${reportId}`}>
+                      <ListItem button onClick={Function.prototype}>
+                        <ListItemAvatar>
+                          <Avatar
+                            style={{ backgroundColor: stateColors[state] }}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText>{phone}</ListItemText>
+                      </ListItem>
+                    </PopoverView>
+                  )
+                )}
               </Popover>
             </div>
           )
