@@ -30,8 +30,8 @@ export default function NewRecord() {
 
   const [symptomsStep, registerPhoneNumberStep, confirmNumberStep] = stepIndexes
 
-  function setPhoneAndAddPrefix(text) {
-    setPhone(`+55${text}`)
+  function formatAndSetPhone(text) {
+    setPhone(`+55${text.replace(/-|\(|\)|\s/g, '')}`)
   }
 
   async function sendSymptoms() {
@@ -67,7 +67,7 @@ export default function NewRecord() {
       case symptomsStep:
         return <Symptoms handleOnChange={setSymptoms} />
       case registerPhoneNumberStep:
-        return <RegisterPhoneNumber handleOnChange={setPhoneAndAddPrefix} />
+        return <RegisterPhoneNumber handleOnChange={formatAndSetPhone} />
       case confirmNumberStep:
         return <ConfirmNumber handleOnChange={setCode} />
       default:

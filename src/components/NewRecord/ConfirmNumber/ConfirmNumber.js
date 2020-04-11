@@ -18,7 +18,7 @@ export default function RegisterPhoneNumber({ handleOnChange }) {
           label={t('Código SMS:')}
           variant="outlined"
           type="number"
-          placeholder="00000"
+          placeholder="0000"
           onChange={({ target: { value } }) => handleOnChange(value)}
           InputLabelProps={{
             shrink: true,
