@@ -124,7 +124,7 @@ function CasesMap() {
       {...viewport}
       ref={setMapRef}
       maxZoom={17}
-      minZoom={10}
+      minZoom={9}
       onViewportChange={setViewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
     >

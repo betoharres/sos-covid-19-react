@@ -21,9 +21,9 @@ const stepIndexes = [...Array(steps.length).keys()]
 
 export default function NewRecord() {
   const [isLoading, setIsLoading] = useState(false)
-  const [symptoms, setSymptoms] = useState(null)
-  const [phone, setPhone] = useState(null)
-  const [code, setCode] = useState(null)
+  const [symptoms, setSymptoms] = useState(new Set())
+  const [phone, setPhone] = useState('')
+  const [code, setCode] = useState('')
   const { currentLocation, getCurrentPosition, hasLocation } = useLocation()
   const { currentIndex: activeStep, prev, next } = useStateList(stepIndexes)
   const { t } = useTranslation()
@@ -85,8 +85,21 @@ export default function NewRecord() {
         break
       case confirmNumberStep:
         await sendConfirmationCode()
-        // TODO: redirects somewhere else
+        // TODO: redirect user after confirm phone number
         break
+      default:
+        break
+    }
+  }
+
+  function isNextBtnDisabled() {
+    switch (activeStep) {
+      case symptomsStep:
+        return !symptoms.size
+      case registerPhoneNumberStep:
+        return !phone.replace(/(55)|\D|_/g, '').length
+      case confirmNumberStep:
+        return !code.length
       default:
         break
     }
@@ -116,7 +129,7 @@ export default function NewRecord() {
         ) : (
           <Button
             onClick={onPressNext}
-            disabled={isLoading}
+            disabled={isLoading || isNextBtnDisabled()}
             variant="contained"
             color="primary"
           >
