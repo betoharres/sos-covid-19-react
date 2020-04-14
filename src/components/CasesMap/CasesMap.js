@@ -39,14 +39,16 @@ function CasesMap() {
 
   const points = useMemo(
     () =>
-      markers.map(({ id, latitude, longitude, phone, aasm_state: state }) => ({
-        type: 'Feature',
-        properties: { reportId: id, phone, state },
-        geometry: {
-          type: 'Point',
-          coordinates: [parseFloat(longitude), parseFloat(latitude)],
-        },
-      })),
+      markers.map(
+        ({ id, latitude, longitude, phoneNumber, aasmState: state }) => ({
+          type: 'Feature',
+          properties: { reportId: id, phoneNumber, state },
+          geometry: {
+            type: 'Point',
+            coordinates: [parseFloat(longitude), parseFloat(latitude)],
+          },
+        })
+      ),
     [markers]
   )
 
@@ -96,9 +98,9 @@ function CasesMap() {
 
   const handleClickMarker = ({
     event: { currentTarget },
-    reportData: { phone, state },
+    reportData: { phoneNumber, state },
   }) => {
-    setPopoverInfo([{ phone, state }])
+    setPopoverInfo([{ phoneNumber, state }])
     setAnchorEl(currentTarget)
   }
 
@@ -166,20 +168,18 @@ function CasesMap() {
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
-                {popoverInfo.map(
-                  ({ reportId, phone: { number: phone }, state }) => (
-                    <PopoverView key={`${reportId}`}>
-                      <ListItem button onClick={Function.prototype}>
-                        <ListItemAvatar>
-                          <Avatar
-                            style={{ backgroundColor: stateColors[state] }}
-                          />
-                        </ListItemAvatar>
-                        <ListItemText>{phone}</ListItemText>
-                      </ListItem>
-                    </PopoverView>
-                  )
-                )}
+                {popoverInfo.map(({ reportId, phoneNumber, state }) => (
+                  <PopoverView key={`${reportId}`}>
+                    <ListItem button onClick={Function.prototype}>
+                      <ListItemAvatar>
+                        <Avatar
+                          style={{ backgroundColor: stateColors[state] }}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText>{phoneNumber}</ListItemText>
+                    </ListItem>
+                  </PopoverView>
+                ))}
               </Popover>
             </div>
           )
