@@ -32,7 +32,7 @@ function CasesMap() {
     longitude: -51.13534,
     width: '100vw',
     height: '100vh',
-    zoom: 11,
+    zoom: 9,
   })
   const bounds =
     mapRef.current && mapRef.current.getMap().getBounds().toArray().flat()

@@ -4,16 +4,19 @@ import { TextField, Button } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import InputMask from 'react-input-mask'
-import { Container } from './Register.styles'
+import { Container, FormContainer, FieldContainer } from './Register.styles'
 
 export default function Register() {
   const { t } = useTranslation()
   const { handleChange } = useFormik({
+    onSubmit,
     initialValues: {
-      name: '',
-      identifierType: '',
-      identifier: '',
-      phone: '',
+      name: null,
+      identifierType: null,
+      identifier: null,
+      phone: null,
+      email: null,
+      password: null,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -34,74 +37,96 @@ export default function Register() {
         .required(t('Obrigatório')),
       password: Yup.string().required(t('Obrigatório')),
     }),
-    onSubmit: (values) => Function.prototype,
   })
 
-  function handleFieldChange({ target: { value } }) {
-    handleChange(value)
+  function onSubmit() {}
+
+  function handlePhoneChange(event) {
+    event.target.value = event.target.value.replace(/(55)|\D|_/g, '')
+    handleChange(event)
   }
 
   return (
     <Container>
-      <TextField
-        required
-        type="text"
-        variant="outlined"
-        id="name"
-        name="name"
-        label={t('Nome')}
-        onChange={handleFieldChange}
-      />
-      <InputMask
-        mask="(99) 999-99-99-99"
-        onChange={handleFieldChange}
-      >
-        {() => (
-          <TextField
-            required
-            type="tel"
-            variant="outlined"
-            label={t('Celular')}
-          />
-        )}
-      </InputMask>
-      <TextField
-        required
-        type="text"
-        variant="outlined"
-        id="identifierType"
-        name="identifierType"
-        label={t('Tipo Identificação(CRM/COREN/etc...)')}
-        onChange={handleFieldChange}
-      />
-      <TextField
-        required
-        type="text"
-        variant="outlined"
-        id="identifier"
-        name="identifier"
-        label={t('Identificação')}
-        onChange={handleFieldChange}
-      />
-      <TextField
-        required
-        type="text"
-        variant="outlined"
-        id="email"
-        name="email"
-        label={t('E-mail')}
-        onChange={handleFieldChange}
-      />
-      <TextField
-        required
-        type="password"
-        variant="outlined"
-        id="password"
-        name="password"
-        label={t('Senha')}
-        onChange={handleFieldChange}
-      />
-      <Button type="submit">{t('Enviar')}</Button>
+      <form onSubmit={onSubmit}>
+        <FormContainer>
+          <FieldContainer>
+            <TextField
+              required
+              type="text"
+              variant="outlined"
+              id="name"
+              name="name"
+              label={t('Nome')}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+          <InputMask mask="(99) 999-99-99-99" onChange={handlePhoneChange}>
+            {({ onChange }) => (
+              <FieldContainer>
+                <TextField
+                  required
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  variant="outlined"
+                  onChange={onChange}
+                  label={t('Celular')}
+                />
+              </FieldContainer>
+            )}
+          </InputMask>
+          <FieldContainer>
+            <TextField
+              required
+              type="text"
+              variant="outlined"
+              id="identifierType"
+              name="identifierType"
+              label={t('Tipo Identificação(CRM/COREN/etc...)')}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <TextField
+              required
+              type="text"
+              variant="outlined"
+              id="identifier"
+              name="identifier"
+              label={t('Identificação')}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <TextField
+              required
+              type="text"
+              variant="outlined"
+              id="email"
+              name="email"
+              label={t('E-mail')}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <TextField
+              required
+              type="password"
+              variant="outlined"
+              id="password"
+              name="password"
+              label={t('Senha')}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <Button onClick={onSubmit} type="button">
+              {t('Enviar')}
+            </Button>
+          </FieldContainer>
+        </FormContainer>
+      </form>
     </Container>
   )
 }
