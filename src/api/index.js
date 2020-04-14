@@ -10,11 +10,42 @@ export function parseObjectToParams(params) {
   }
 }
 
+// foo_bar => fooBar
+export function toCamelCase(string) {
+  return string.replace(
+    /_[a-z]/g,
+    (match) => `${match.substring(1).toUpperCase()}`
+  )
+}
+
+export function parseToCamelCase(obj) {
+  const parsedObj = {}
+  Object.keys(obj).forEach((key) => {
+    // recursive call
+    obj[key] =
+      obj[key] instanceof Object ? parseToCamelCase(obj[key]) : obj[key]
+    const camelKey = toCamelCase(key)
+    parsedObj[camelKey] = obj[key]
+  })
+  return parsedObj
+}
+
+export function parseBodyToCamelCase(obj) {
+  if (obj instanceof Array) {
+    const objList = []
+    obj.forEach((objectItem) => objList.push(parseToCamelCase(objectItem)))
+    return objList
+  } else {
+    return parseToCamelCase(obj)
+  }
+}
+
 async function parseResponse(response) {
   try {
     const responseJson = await response.json()
     if (responseJson && response.status >= 200 && response.status < 300) {
-      return responseJson
+      const camelCaseJSONResponse = parseBodyToCamelCase(responseJson)
+      return camelCaseJSONResponse
     } else {
       return Promise.reject(responseJson)
     }
