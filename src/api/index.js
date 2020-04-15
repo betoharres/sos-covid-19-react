@@ -91,3 +91,9 @@ export async function fetchReports(params) {
   const response = await callAPI(`/patients?${stringParams}`)
   return response
 }
+
+export async function postVolunteer(volunteer) {
+  const response = await callAPI('/volunteers', 'POST', { volunteer })
+  return response
+}
+

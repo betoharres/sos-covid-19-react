@@ -6,17 +6,18 @@ import * as Yup from 'yup'
 import InputMask from 'react-input-mask'
 import { Container, FormContainer, FieldContainer } from './Register.styles'
 
+import { postVolunteer } from '../../api'
+
 export default function Register() {
   const { t } = useTranslation()
-  const { handleChange } = useFormik({
+  const { handleChange, values } = useFormik({
     onSubmit,
     initialValues: {
       name: null,
-      identifierType: null,
+      email: null,
+      identifier_type: null,
       identifier: null,
       phone: null,
-      email: null,
-      password: null,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -35,14 +36,15 @@ export default function Register() {
       email: Yup.string()
         .email(t('E-mail inválido'))
         .required(t('Obrigatório')),
-      password: Yup.string().required(t('Obrigatório')),
     }),
   })
 
-  function onSubmit() {}
+  function onSubmit() {
+    postVolunteer(values)
+  }
 
   function handlePhoneChange(event) {
-    event.target.value = event.target.value.replace(/(55)|\D|_/g, '')
+    event.target.value = `+55${event.target.value.replace(/(55)|\D|_/g, '')}`
     handleChange(event)
   }
 
@@ -81,8 +83,8 @@ export default function Register() {
               required
               type="text"
               variant="outlined"
-              id="identifierType"
-              name="identifierType"
+              id="identifier_type"
+              name="identifier_type"
               label={t('Tipo Identificação(CRM/COREN/etc...)')}
               onChange={handleChange}
             />
@@ -106,17 +108,6 @@ export default function Register() {
               id="email"
               name="email"
               label={t('E-mail')}
-              onChange={handleChange}
-            />
-          </FieldContainer>
-          <FieldContainer>
-            <TextField
-              required
-              type="password"
-              variant="outlined"
-              id="password"
-              name="password"
-              label={t('Senha')}
               onChange={handleChange}
             />
           </FieldContainer>
