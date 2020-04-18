@@ -97,3 +97,8 @@ export async function postVolunteer(volunteer) {
   return response
 }
 
+export async function postLogin(credentials) {
+  const response = await callAPI('/login', 'POST', { credentials })
+  return response
+}
+
