@@ -5,7 +5,7 @@ import { useStateList } from 'react-use'
 
 import Symptoms from './Symptoms/Symptoms'
 import RegisterPhoneNumber from './RegisterPhoneNumber/RegisterPhoneNumber'
-import ConfirmNumber from './ConfirmNumber/ConfirmNumber'
+import ConfirmNumber from '../ConfirmNumber/ConfirmNumber'
 import { Container, ActionContainer, StepContainer } from './NewRecord.styles'
 
 import { useLocation } from '../../hooks'
