@@ -39,8 +39,17 @@ export default function Register() {
     }),
   })
 
-  function onSubmit() {
-    postVolunteer(values)
+  async function onSubmit() {
+    try {
+      const { isSmsSent } = await postVolunteer(values)
+      if (isSmsSent) {
+        // console.log('confirm your number')
+      } else {
+        // console.log('done!')
+      }
+    } catch (error) {
+      // console.error(error)
+    }
   }
 
   function handlePhoneChange(event) {

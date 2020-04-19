@@ -1,18 +1,28 @@
 import React from 'react'
 import { func } from 'prop-types'
-import { TextField, InputAdornment } from '@material-ui/core'
+import { TextField, InputAdornment, Divider } from '@material-ui/core'
 import SmsIcon from '@material-ui/icons/Sms'
 import { useTranslation } from 'react-i18next'
 
-import { Container, Title, PhoneFieldView } from './ConfirmNumber.styles'
+import {
+  Container,
+  Title,
+  Subtitle,
+  PhoneFieldView,
+} from './ConfirmNumber.styles'
 
-export default function RegisterPhoneNumber({ handleOnChange }) {
+export default function ConfirmNumber({ handleOnChange }) {
   const { t } = useTranslation()
   return (
     <Container>
       <Title variant="h5" gutterBottom>
-        {t('Confirme seu número, um código foi enviado por SMS')}
+        {t('Confirme seu número')}
       </Title>
+      <Divider />
+      <Title variant="h6" gutterBottom>
+        {t('Enviamos um código SMS para o seu celular')}
+      </Title>
+      <Subtitle>{t('Digite o código abaixo:')}</Subtitle>
       <PhoneFieldView>
         <TextField
           label={t('Código SMS:')}
@@ -36,6 +46,6 @@ export default function RegisterPhoneNumber({ handleOnChange }) {
   )
 }
 
-RegisterPhoneNumber.propTypes = {
+ConfirmNumber.propTypes = {
   handleOnChange: func.isRequired,
 }

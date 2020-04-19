@@ -16,4 +16,5 @@ export const PhoneFieldView = styled.div`
   max-width: 150px;
 `
 
-export const Title = styled(Typography)``
+export const Title = styled(Typography).attrs()``
+export const Subtitle = styled(Typography).attrs()``
