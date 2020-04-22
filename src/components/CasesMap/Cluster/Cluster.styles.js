@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  ${({clusteredPointsCount, mapPointsCount}) => `
+  ${({ clusteredPointsCount, mapPointsCount }) => `
     color: #fff;
     background: #1978c8;
     border-radius: 50%;

@@ -81,7 +81,7 @@ export async function postSymptoms(patient) {
 
 export async function postCode(number, code) {
   const response = await callAPI('/phones/validate', 'POST', {
-    phone: { number, verification_code: code },
+    phone: { number, sms_code: code },
   })
   return response
 }
