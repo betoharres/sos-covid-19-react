@@ -1,5 +1,5 @@
-import React from 'react'
-import { func } from 'prop-types'
+import React, { useState } from 'react'
+import { func, string } from 'prop-types'
 import { TextField, InputAdornment, Divider } from '@material-ui/core'
 import SmsIcon from '@material-ui/icons/Sms'
 import { useTranslation } from 'react-i18next'
@@ -9,10 +9,25 @@ import {
   Title,
   Subtitle,
   PhoneFieldView,
+  Button,
+  ButtonContainer,
 } from './ConfirmNumber.styles'
 
-export default function ConfirmNumber({ handleOnChange }) {
+import { postCode } from '../../api'
+
+export default function ConfirmNumber({ phone, onSubmit }) {
   const { t } = useTranslation()
+  const [code, setCode] = useState(null)
+
+  async function handleOnSubmit() {
+    try {
+      const { success, ...response } = await postCode(phone, code)
+      onSubmit({ code, response, success })
+    } catch {
+      alert(t('Não foi possível enviar o código SMS. Tente novamente'))
+    }
+  }
+
   return (
     <Container>
       <Title variant="h5" gutterBottom>
@@ -20,7 +35,7 @@ export default function ConfirmNumber({ handleOnChange }) {
       </Title>
       <Divider />
       <Title variant="h6" gutterBottom>
-        {t('Enviamos um código SMS para o seu celular')}
+        {t(`Enviamos um código SMS para ${phone}`)}
       </Title>
       <Subtitle>{t('Digite o código abaixo:')}</Subtitle>
       <PhoneFieldView>
@@ -29,7 +44,7 @@ export default function ConfirmNumber({ handleOnChange }) {
           variant="outlined"
           type="number"
           placeholder="0000"
-          onChange={({ target: { value } }) => handleOnChange(value)}
+          onChange={({ target: { value } }) => setCode(value)}
           InputLabelProps={{
             shrink: true,
           }}
@@ -42,10 +57,16 @@ export default function ConfirmNumber({ handleOnChange }) {
           }}
         />
       </PhoneFieldView>
+      <ButtonContainer>
+        <Button color="primary" variant="contained" onClick={handleOnSubmit}>
+          {t('Enviar')}
+        </Button>
+      </ButtonContainer>
     </Container>
   )
 }
 
 ConfirmNumber.propTypes = {
-  handleOnChange: func.isRequired,
+  onSubmit: func.isRequired,
+  phone: string.isRequired,
 }

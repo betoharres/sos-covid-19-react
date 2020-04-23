@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TextField, Button } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import InputMask from 'react-input-mask'
+
 import { Container, FormContainer, FieldContainer } from './Register.styles'
+
+import ConfirmNumber from '../ConfirmNumber/ConfirmNumber'
+import Modal from '../Modal/Modal'
 
 import { postVolunteer } from '../../api'
 
 export default function Register() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { t } = useTranslation()
   const { handleChange, values } = useFormik({
     onSubmit,
@@ -43,12 +48,12 @@ export default function Register() {
     try {
       const { isSmsSent } = await postVolunteer(values)
       if (isSmsSent) {
-        // console.log('confirm your number')
+        setIsModalOpen(true)
       } else {
-        // console.log('done!')
+        alert(t('Cadastro concluído'))
       }
     } catch (error) {
-      // console.error(error)
+      alert(t('Não foi possível efetuar o cadastro. Tente novamente'))
     }
   }
 
@@ -57,8 +62,20 @@ export default function Register() {
     handleChange(event)
   }
 
+  function handleOnSubmit({ success }) {
+    if (success) {
+      setIsModalOpen(false)
+      alert(t('Cadastro efetuado com sucesso!'))
+    } else {
+      alert('Erro. Tente novamente.')
+    }
+  }
+
   return (
     <Container>
+      <Modal isOpen={isModalOpen}>
+        <ConfirmNumber phone={values.phone} onSubmit={handleOnSubmit} />
+      </Modal>
       <form onSubmit={onSubmit}>
         <FormContainer>
           <FieldContainer>
