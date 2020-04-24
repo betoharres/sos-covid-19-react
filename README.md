@@ -58,8 +58,7 @@ Somente médicos/enfermeiros podem mudar o estado do registro.
 ## Quando?
 
 Tempo é o nosso inimigo(junto com o vírus). Precisamos agir agora ou o dano será
-irreversível.  
-05/04 é a minha meta para termos o projeto funcionando.
+irreversível.
 Qualquer tipo de ajuda é bem-vinda.
 
 ## Metas
