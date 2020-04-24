@@ -90,4 +90,4 @@ Também no arquivo .env, coloque a url que o app vai fazer requisiçoes:
 
 # [Slack](https://soscovid-19.slack.com) 
 
-## [Convites abertos](https://join.slack.com/t/soscovid-19/shared_invite/zt-dfmc8cz4-3ksiDqD9VElWC~6tlHzWkA)
+## [Slack Convites Abertos](https://join.slack.com/t/soscovid-19/shared_invite/zt-dfmc8cz4-3ksiDqD9VElWC~6tlHzWkA)
