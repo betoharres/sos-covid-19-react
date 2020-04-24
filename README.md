@@ -43,7 +43,7 @@ número inserido.
 Médicos podem ver os números no mapa e ligar para essas pessoas para iniciar
 o tratamento, decidir se essas pessoas precisam ser testadas ou pelo menos
 reportar para orgãos competentes onde provavelmente casos de `COVID-19` estão
-aparecendo.
+aparecendo.  
 Cada novo registro pode ter 5 estados:
 
     - Esperando contato (estado inicial)
@@ -66,10 +66,19 @@ Qualquer tipo de ajuda é bem-vinda.
 
 1. Encontrar mais pessoas para ajudar na missão do projeto.
 2. Fazer o serviço conhecido para pessoas comuns.
-3. Registar maior número possível médicos voluntários.
+3. Registar maior número possível de voluntários.
 
-## Iniciando o projeto localmente:
-Alguns components podem ser visualizados no storybook.
+## Iniciando projeto localmente:
+
+### Requisitos:
+    * Ruby (backend)
+    * Postgres (backend)
+    * Redis (backend)
+    * Node (frontend)
+    * Yarn (frontend)
+
+### Frontend
+Projeto no momento pode ser visualizado apenas pelo storybook:
 
 `$ yarn && yarn storybook` 
 
@@ -77,16 +86,8 @@ Para visualizar o mapa, cria uma crie uma conta no mapbox(www.mapbox.com) e colo
 `REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah`  
 
 Também no arquivo .env, coloque a url que o app vai fazer requisiçoes:  
-`REACT_APP_API_URL=http://localhost:8080`  
+`REACT_APP_API_URL=http://localhost:3000`  
 
-# Slack 
-https://soscovid-19.slack.com
+# [Slack](https://soscovid-19.slack.com) 
 
-Convites abertos:
-
-https://join.slack.com/t/soscovid-19/shared_invite/zt-dfmc8cz4-3ksiDqD9VElWC~6tlHzWkA
-
-## Vídeos para lembrar porque fazemos isso:
-
-https://news.sky.com/story/coronavirus-they-call-it-the-apocalypse-inside-italys-hardest-hit-hospital-11960597
-https://www.nytimes.com/2020/03/25/nyregion/nyc-coronavirus-hospitals.html
+## [Convites abertos](https://join.slack.com/t/soscovid-19/shared_invite/zt-dfmc8cz4-3ksiDqD9VElWC~6tlHzWkA)
