@@ -76,6 +76,8 @@ Qualquer tipo de ajuda é bem-vinda.
     * Node (frontend)
     * Yarn (frontend)
 
+* Criar uma conta free no [Mapbox](https://account.mapbox.com/auth/signup/) e no [Twilio](https://www.twilio.com/try-twilio)
+
 ### Frontend
 Projeto no momento pode ser visualizado apenas pelo storybook:
 
