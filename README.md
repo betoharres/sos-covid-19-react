@@ -81,13 +81,19 @@ Qualquer tipo de ajuda é bem-vinda.
 ### Frontend
 Projeto no momento pode ser visualizado apenas pelo storybook:
 
-`$ yarn && yarn storybook` 
+```
+$ yarn && yarn storybook
+``` 
 
 Para visualizar o mapa, cria uma crie uma conta no mapbox(www.mapbox.com) e coloque a a chave em um arquivo `.env` no root do projeto:
-`REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah`  
+```
+REACT_APP_MAP_KEY=pk.Adiusf00418014hfjksah
+```
 
 Também no arquivo .env, coloque a url que o app vai fazer requisiçoes:  
-`REACT_APP_API_URL=http://localhost:3000`  
+```
+REACT_APP_API_URL=http://localhost:3000
+```
 
 # [Slack](https://soscovid-19.slack.com) 
 
