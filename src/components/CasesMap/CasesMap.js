@@ -32,7 +32,7 @@ function CasesMap() {
     longitude: -51.13534,
     width: '100vw',
     height: '100vh',
-    zoom: 9,
+    zoom: 10,
   })
   const bounds =
     mapRef.current && mapRef.current.getMap().getBounds().toArray().flat()
@@ -125,8 +125,8 @@ function CasesMap() {
     <ReactMapGL
       {...viewport}
       ref={setMapRef}
-      maxZoom={17}
-      minZoom={9}
+      maxZoom={16}
+      minZoom={10}
       onViewportChange={setViewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
     >
