@@ -1,4 +1,5 @@
 const API_URL = process.env.REACT_APP_API_URL
+const { localStorage } = window
 
 export function parseObjectToParams(params) {
   if (params) {
@@ -44,6 +45,11 @@ async function parseResponse(response) {
   try {
     const responseJson = await response.json()
     if (responseJson && response.status >= 200 && response.status < 300) {
+      const refreshToken = response.headers.get('refresh_token')
+      const accessToken = response.headers.get('access_token')
+      if (refreshToken || accessToken) {
+        localStorage.setItem('auth_token', refreshToken || accessToken)
+      }
       const camelCaseJSONResponse = parseBodyToCamelCase(responseJson)
       return camelCaseJSONResponse
     } else {
@@ -55,12 +61,19 @@ async function parseResponse(response) {
 }
 
 export async function callAPI(endpoint, method = 'GET', body = null) {
+  const authToken = localStorage.getItem('auth_token')
   const options = {
     method,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+  }
+  if (authToken) {
+    options.headers = {
+      ...options.headers,
+      Authorization: `Bearer ${authToken}`,
+    }
   }
   if (body) {
     options.body = JSON.stringify(body)
@@ -101,4 +114,3 @@ export async function postLogin(credentials) {
   const response = await callAPI('/login', 'POST', { credentials })
   return response
 }
-

@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextField, Button } from '@material-ui/core'
+import {
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+} from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import InputMask from 'react-input-mask'
+import { useToggle } from 'react-use'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 import { Container, FormContainer, FieldContainer } from './Register.styles'
 
@@ -14,6 +22,7 @@ import { postVolunteer } from '../../api'
 
 export default function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showPassword, toggleShowPassword] = useToggle(false)
   const { t } = useTranslation()
   const { handleChange, values } = useFormik({
     onSubmit,
@@ -41,6 +50,7 @@ export default function Register() {
       email: Yup.string()
         .email(t('E-mail inválido'))
         .required(t('Obrigatório')),
+      password: Yup.string().min(6).required(t('Obrigatório')),
     }),
   })
 
@@ -69,6 +79,10 @@ export default function Register() {
     } else {
       alert('Erro. Tente novamente.')
     }
+  }
+
+  function handleMouseDownPassword(event) {
+    event.preventDefault()
   }
 
   return (
@@ -135,6 +149,30 @@ export default function Register() {
               name="email"
               label={t('E-mail')}
               onChange={handleChange}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <TextField
+              required
+              type={showPassword ? 'text' : 'password'}
+              variant="outlined"
+              id="password"
+              name="password"
+              label={t('Senha')}
+              onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Mostrar/esconder senha"
+                      onClick={toggleShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </FieldContainer>
           <FieldContainer>
