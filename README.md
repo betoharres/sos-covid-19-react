@@ -47,7 +47,7 @@ aparecendo.
 Cada novo registro pode ter 5 estados:
 
     - Esperando contato (estado inicial)
-    - Aguardando visita de um médico/efermeiro
+    - Aguardando visita de um médico/enfermeiro
     - Teste pendente (decidido por um médico/efermeiro)
     - Positivo (Infectado)
     - Descartado (Concluído Através da visita e/ou falta de sintomas, ou teste negativo)
