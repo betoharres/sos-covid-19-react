@@ -4,3 +4,5 @@ export const stateColors = {
   infected: 'tomato',
   discarded: 'lightgrey',
 }
+
+export const tokenKey = 'auth_token'
