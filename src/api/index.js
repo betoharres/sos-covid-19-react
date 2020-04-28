@@ -1,3 +1,5 @@
+import { tokenKey } from '../constants'
+
 const API_URL = process.env.REACT_APP_API_URL
 const { localStorage } = window
 
@@ -41,15 +43,18 @@ export function parseBodyToCamelCase(obj) {
   }
 }
 
+function updateAuthToken({ authToken }) {
+  localStorage.setItem(tokenKey, authToken)
+}
+
+function getAuthToken() {
+  return localStorage.getItem(tokenKey)
+}
+
 async function parseResponse(response) {
   try {
     const responseJson = await response.json()
     if (responseJson && response.status >= 200 && response.status < 300) {
-      const refreshToken = response.headers.get('refresh_token')
-      const accessToken = response.headers.get('access_token')
-      if (refreshToken || accessToken) {
-        localStorage.setItem('auth_token', refreshToken || accessToken)
-      }
       const camelCaseJSONResponse = parseBodyToCamelCase(responseJson)
       return camelCaseJSONResponse
     } else {
@@ -61,7 +66,7 @@ async function parseResponse(response) {
 }
 
 export async function callAPI(endpoint, method = 'GET', body = null) {
-  const authToken = localStorage.getItem('auth_token')
+  const authToken = getAuthToken()
   const options = {
     method,
     headers: {
@@ -81,6 +86,7 @@ export async function callAPI(endpoint, method = 'GET', body = null) {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, options)
     const json = await parseResponse(response)
+    updateAuthToken(json)
     return json
   } catch (error) {
     return Promise.reject(error)
@@ -111,6 +117,6 @@ export async function postVolunteer(volunteer) {
 }
 
 export async function postLogin(credentials) {
-  const response = await callAPI('/login', 'POST', { credentials })
+  const response = await callAPI('/login', 'POST', credentials)
   return response
 }
