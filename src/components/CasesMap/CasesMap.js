@@ -27,10 +27,11 @@ import { stateColors } from '../../constants'
 import { fetchReports } from '../../api'
 
 function CasesMap() {
+  const mapRef = useRef()
   const [markers, setMarkers] = useState([])
   const [popoverInfo, setPopoverInfo] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const mapRef = useRef()
+  const [showRefreshBtn, setShowRefreshBtn] = useState(false)
   const { currentLocation, hasLocation, updateLocation } = useLocation()
   const [viewport, setViewport] = useState({
     latitude: -30.018486,
@@ -64,9 +65,11 @@ function CasesMap() {
     options: { radius: 90, maxZoom: 17 },
   })
 
-  function setMapRef(ref) {
-    mapRef.current = ref
-  }
+  const loadMarkers = useCallback(async ({ latitude, longitude }) => {
+    const params = { latitude, longitude }
+    const apiReports = await fetchReports(params)
+    setMarkers(apiReports)
+  }, [])
 
   useEffect(() => {
     if (hasLocation) {
@@ -85,19 +88,15 @@ function CasesMap() {
     }
   }, [currentLocation, hasLocation, updateLocation])
 
-  const loadMarkers = useCallback(async () => {
-    const { latitude, longitude } = currentLocation
-    const { zoom } = viewport
-    const params = { latitude, longitude, map_zoom: zoom }
-    const apiReports = await fetchReports(params)
-    setMarkers(apiReports)
-  }, [currentLocation, viewport])
+  useEffect(() => {
+    if (hasLocation && markers.length === 0) {
+      loadMarkers(currentLocation)
+    }
+  }, [loadMarkers, markers, hasLocation, currentLocation])
 
   useEffect(() => {
-    if (hasLocation) {
-      loadMarkers()
-    }
-  }, [loadMarkers, hasLocation])
+    setShowRefreshBtn(true)
+  }, [viewport])
 
   const mapPointsCount = useMemo(() => points.length, [points])
 
@@ -113,6 +112,10 @@ function CasesMap() {
     setAnchorEl(null)
   }
 
+  function setMapRef(ref) {
+    mapRef.current = ref
+  }
+
   function handleClickCluster({ id, event: { currentTarget } }) {
     let markers = supercluster.getLeaves(id)
     markers = markers.reduce(
@@ -123,19 +126,37 @@ function CasesMap() {
     setAnchorEl(currentTarget)
   }
 
+  function onClickRefreshBtn() {
+    loadMarkers({ ...viewport })
+    setShowRefreshBtn(false)
+  }
+
   const open = Boolean(anchorEl)
   const popoverId = open ? 'simple-popover' : undefined
 
   return (
-    <>
-      <ReactMapGL
-        {...viewport}
-        ref={setMapRef}
-        maxZoom={16}
-        minZoom={10}
-        onViewportChange={setViewport}
-        mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
-      >
+    <ReactMapGL
+      {...viewport}
+      ref={setMapRef}
+      maxZoom={16}
+      minZoom={10}
+      onViewportChange={setViewport}
+      mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
+    >
+      <>
+        {showRefreshBtn && (
+          <RefreshIconContainer>
+            <Fab
+              variant="extended"
+              size="medium"
+              aria-label="atualizar"
+              onClick={onClickRefreshBtn}
+            >
+              <RefreshIcon />
+              Atualizar
+            </Fab>
+          </RefreshIconContainer>
+        )}
         {clusters.map(
           ({
             id,
@@ -149,61 +170,53 @@ function CasesMap() {
             },
           }) => {
             return (
-              <>
-                <RefreshIconContainer>
-                  <Fab variant="extended" size="medium" aria-label="atualizar">
-                    <RefreshIcon />
-                    Atualizar
-                  </Fab>
-                </RefreshIconContainer>
-                <div key={`${lat}${lng}${id || reportData.reportId}`}>
-                  <MapBoxMarker latitude={lat} longitude={lng}>
-                    {isCluster ? (
-                      <Cluster
-                        mapPointsCount={mapPointsCount}
-                        clusteredPointsCount={clusteredPointsCount}
-                        onClick={(event) => handleClickCluster({ event, id })}
-                      />
-                    ) : (
-                      <Marker
-                        state={reportData.state}
-                        onClick={(event) =>
-                          handleClickMarker({ event, reportData })
-                        }
-                      />
-                    )}
-                  </MapBoxMarker>
-                  <Popover
-                    id={popoverId}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                    transformOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                  >
-                    {popoverInfo.map(({ reportId, phoneNumber, state }) => (
-                      <PopoverView key={`${reportId}`}>
-                        <ListItem button onClick={Function.prototype}>
-                          <ListItemAvatar>
-                            <Avatar
-                              style={{ backgroundColor: stateColors[state] }}
-                            />
-                          </ListItemAvatar>
-                          <ListItemText>{phoneNumber}</ListItemText>
-                        </ListItem>
-                      </PopoverView>
-                    ))}
-                  </Popover>
-                </div>
-              </>
+              <div key={`${lat}${lng}${id || reportData.reportId}`}>
+                <MapBoxMarker latitude={lat} longitude={lng}>
+                  {isCluster ? (
+                    <Cluster
+                      mapPointsCount={mapPointsCount}
+                      clusteredPointsCount={clusteredPointsCount}
+                      onClick={(event) => handleClickCluster({ event, id })}
+                    />
+                  ) : (
+                    <Marker
+                      state={reportData.state}
+                      onClick={(event) =>
+                        handleClickMarker({ event, reportData })
+                      }
+                    />
+                  )}
+                </MapBoxMarker>
+                <Popover
+                  id={popoverId}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                >
+                  {popoverInfo.map(({ reportId, phoneNumber, state }) => (
+                    <PopoverView key={`${reportId}`}>
+                      <ListItem button onClick={Function.prototype}>
+                        <ListItemAvatar>
+                          <Avatar
+                            style={{ backgroundColor: stateColors[state] }}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText>{phoneNumber}</ListItemText>
+                      </ListItem>
+                    </PopoverView>
+                  ))}
+                </Popover>
+              </div>
             )
           }
         )}
-      </ReactMapGL>
-    </>
+      </>
+    </ReactMapGL>
   )
 }
 
