@@ -69,6 +69,7 @@ export async function callAPI(endpoint, method = 'GET', body = null) {
   const authToken = getAuthToken()
   const options = {
     method,
+    mode: 'cors',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
