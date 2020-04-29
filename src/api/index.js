@@ -44,7 +44,9 @@ export function parseBodyToCamelCase(obj) {
 }
 
 function updateAuthToken({ authToken }) {
-  localStorage.setItem(tokenKey, authToken)
+  if (authToken) {
+    localStorage.setItem(tokenKey, authToken)
+  }
 }
 
 function getAuthToken() {
