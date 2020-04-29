@@ -110,7 +110,8 @@ export async function postCode(number, code) {
 
 export async function fetchReports(params) {
   const stringParams = parseObjectToParams(params)
-  const response = await callAPI(`/patients?${stringParams}`)
+  const endpoint = getAuthToken() ? '/patients' : '/guest'
+  const response = await callAPI(`${endpoint}?${stringParams}`)
   return response
 }
 
