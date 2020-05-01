@@ -3,16 +3,19 @@ import { useTranslation } from 'react-i18next'
 import { TextField, Button } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useLocalStorage } from 'react-use'
 import { Container, FormContainer, FieldContainer } from './Login.styles'
 
+import { volunteerKey } from '../../constants'
 import { postLogin } from '../../api'
 
 export default function Login() {
+  const [localVolunteer] = useLocalStorage(volunteerKey)
   const { t } = useTranslation()
   const { handleChange, values } = useFormik({
     onSubmit,
     initialValues: {
-      email: null,
+      email: localVolunteer.email,
       password: null,
     },
     validationSchema: Yup.object().shape({

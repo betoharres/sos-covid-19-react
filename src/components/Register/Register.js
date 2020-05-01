@@ -9,7 +9,7 @@ import {
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import InputMask from 'react-input-mask'
-import { useToggle } from 'react-use'
+import { useToggle, useLocalStorage } from 'react-use'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
@@ -18,20 +18,22 @@ import { Container, FormContainer, FieldContainer } from './Register.styles'
 import ConfirmNumber from '../ConfirmNumber/ConfirmNumber'
 import Modal from '../Modal/Modal'
 
+import { volunteerKey } from '../../constants'
 import { postVolunteer } from '../../api'
 
 export default function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showPassword, toggleShowPassword] = useToggle(false)
+  const [localVolunteer, setLocalVolunteer] = useLocalStorage(volunteerKey)
   const { t } = useTranslation()
   const { handleChange, values } = useFormik({
     onSubmit,
     initialValues: {
-      name: null,
-      email: null,
-      identifier_type: null,
-      identifier: null,
-      phone: null,
+      name: localVolunteer.name,
+      email: localVolunteer.email,
+      identifier_type: localVolunteer.identifierType,
+      identifier: localVolunteer.identifier,
+      phone: localVolunteer.phoneNumber,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -56,10 +58,11 @@ export default function Register() {
 
   async function onSubmit() {
     try {
-      const { isSmsSent } = await postVolunteer(values)
-      if (isSmsSent) {
+      const volunteer = await postVolunteer(values)
+      if (volunteer.isSmsSent) {
         setIsModalOpen(true)
       } else {
+        setLocalVolunteer(volunteer)
         alert(t('Cadastro concluído'))
       }
     } catch (error) {
@@ -72,7 +75,7 @@ export default function Register() {
     handleChange(event)
   }
 
-  function handleOnSubmit({ success }) {
+  function handleSubmitSmsCode({ success }) {
     if (success) {
       setIsModalOpen(false)
       alert(t('Cadastro efetuado com sucesso!'))
@@ -88,7 +91,7 @@ export default function Register() {
   return (
     <Container>
       <Modal isOpen={isModalOpen}>
-        <ConfirmNumber phone={values.phone} onSubmit={handleOnSubmit} />
+        <ConfirmNumber phone={values.phone} onSubmit={handleSubmitSmsCode} />
       </Modal>
       <form onSubmit={onSubmit}>
         <FormContainer>
