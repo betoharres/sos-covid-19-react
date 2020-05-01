@@ -23,4 +23,12 @@ const MenuItem = styled.li`
   margin-right: 1rem;
 `
 
-export { Wrapper, Container, Menu, MenuItem }
+const LoginItem = styled.li`
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  font-size: 1rem;
+  margin-right: 1rem;
+`
+
+export { Wrapper, Container, Menu, MenuItem, LoginItem }

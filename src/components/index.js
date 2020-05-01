@@ -1,0 +1,5 @@
+export { default as Register } from './Register/Register'
+export { default as Login } from './Login/Login'
+export { default as NewRecord } from './NewRecord/NewRecord'
+export { default as CasesMap } from './CasesMap/CasesMap'
+export { default as Header } from './Header/Header'

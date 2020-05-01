@@ -1,21 +1,24 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { isMobile } from 'react-device-detect'
 
-import Header from './components/Header/Header'
-import Mapas from './pages/Mapas'
-import Cadastro from './pages/Cadastro'
+import { Header } from './components'
+import { Signup, Login, Map, Symptoms } from './pages'
 
 const Routes = () => {
   return (
     <>
       <Router>
-        <Header />
+        {!isMobile && <Header />}
         <Switch>
-          <Route path="/" exact>
-            <Mapas />
+          <Route path="/">
+            {isMobile ? <Symptoms /> : <Map />}
           </Route>
           <Route path="/cadastro">
-            <Cadastro />
+            <Signup />
+          </Route>
+          <Route path="/entrar">
+            <Login />
           </Route>
         </Switch>
       </Router>
