@@ -44,7 +44,9 @@ export function parseBodyToCamelCase(obj) {
 }
 
 function updateAuthToken({ authToken }) {
-  localStorage.setItem(tokenKey, authToken)
+  if (authToken) {
+    localStorage.setItem(tokenKey, authToken)
+  }
 }
 
 function getAuthToken() {
@@ -69,6 +71,7 @@ export async function callAPI(endpoint, method = 'GET', body = null) {
   const authToken = getAuthToken()
   const options = {
     method,
+    mode: 'cors',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -107,7 +110,8 @@ export async function postCode(number, code) {
 
 export async function fetchReports(params) {
   const stringParams = parseObjectToParams(params)
-  const response = await callAPI(`/patients?${stringParams}`)
+  const endpoint = getAuthToken() ? '/patients' : '/guest'
+  const response = await callAPI(`${endpoint}?${stringParams}`)
   return response
 }
 
