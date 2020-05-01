@@ -1,5 +1,4 @@
 import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react'
-import { array } from 'prop-types'
 import ReactMapGL, {
   Marker as MapBoxMarker,
   FlyToInterpolator,
@@ -89,10 +88,8 @@ function CasesMap() {
   }, [currentLocation, hasLocation, updateLocation])
 
   useEffect(() => {
-    if (hasLocation && markers.length === 0) {
-      loadMarkers(currentLocation)
-    }
-  }, [loadMarkers, markers, hasLocation, currentLocation])
+    loadMarkers(currentLocation)
+  }, [loadMarkers, currentLocation])
 
   useEffect(() => {
     setShowRefreshBtn(true)
@@ -218,10 +215,6 @@ function CasesMap() {
       </>
     </ReactMapGL>
   )
-}
-
-CasesMap.propTypes = {
-  reports: array.isRequired,
 }
 
 export default CasesMap
