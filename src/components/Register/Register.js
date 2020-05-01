@@ -24,7 +24,7 @@ import { postVolunteer } from '../../api'
 export default function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showPassword, toggleShowPassword] = useToggle(false)
-  const [localVolunteer, setLocalVolunteer] = useLocalStorage(volunteerKey)
+  const [localVolunteer, setLocalVolunteer] = useLocalStorage(volunteerKey, {})
   const { t } = useTranslation()
   const { handleChange, values } = useFormik({
     onSubmit,
@@ -59,11 +59,11 @@ export default function Register() {
   async function onSubmit() {
     try {
       const volunteer = await postVolunteer(values)
+      setLocalVolunteer(volunteer)
       if (volunteer.isSmsSent) {
         setIsModalOpen(true)
       } else {
-        setLocalVolunteer(volunteer)
-        alert(t('Cadastro concluído'))
+        alert(t('Cadastro efetuado com sucesso!'))
       }
     } catch (error) {
       alert(t('Não foi possível efetuar o cadastro. Tente novamente'))

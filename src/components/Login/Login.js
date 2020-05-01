@@ -10,7 +10,7 @@ import { volunteerKey } from '../../constants'
 import { postLogin } from '../../api'
 
 export default function Login() {
-  const [localVolunteer] = useLocalStorage(volunteerKey)
+  const [localVolunteer] = useLocalStorage(volunteerKey, {})
   const { t } = useTranslation()
   const { handleChange, values } = useFormik({
     onSubmit,
