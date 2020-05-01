@@ -6,3 +6,4 @@ export const stateColors = {
 }
 
 export const tokenKey = 'auth_token'
+export const volunteerKey = 'volunteer'

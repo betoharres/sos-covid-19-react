@@ -1,7 +1,10 @@
-import { tokenKey } from '../constants'
+import {
+  setLocalAuthToken,
+  getLocalAuthToken,
+  deleteLocalAuthToken,
+} from '../storage'
 
 const API_URL = process.env.REACT_APP_API_URL
-const { localStorage } = window
 
 export function parseObjectToParams(params) {
   if (params) {
@@ -43,16 +46,6 @@ export function parseBodyToCamelCase(obj) {
   }
 }
 
-function updateAuthToken({ authToken }) {
-  if (authToken) {
-    localStorage.setItem(tokenKey, authToken)
-  }
-}
-
-function getAuthToken() {
-  return localStorage.getItem(tokenKey)
-}
-
 async function parseResponse(response) {
   try {
     const responseJson = await response.json()
@@ -63,12 +56,15 @@ async function parseResponse(response) {
       return Promise.reject(responseJson)
     }
   } catch (error) {
+    if (response.status === 401) {
+      deleteLocalAuthToken()
+    }
     return Promise.reject(new Error(error))
   }
 }
 
 export async function callAPI(endpoint, method = 'GET', body = null) {
-  const authToken = getAuthToken()
+  const authToken = getLocalAuthToken()
   const options = {
     method,
     mode: 'cors',
@@ -89,7 +85,7 @@ export async function callAPI(endpoint, method = 'GET', body = null) {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, options)
     const json = await parseResponse(response)
-    updateAuthToken(json)
+    setLocalAuthToken(json.authToken)
     return json
   } catch (error) {
     return Promise.reject(error)
@@ -110,7 +106,7 @@ export async function postCode(number, code) {
 
 export async function fetchReports(params) {
   const stringParams = parseObjectToParams(params)
-  const endpoint = getAuthToken() ? '/patients' : '/guest'
+  const endpoint = getLocalAuthToken() ? '/patients' : '/guest'
   const response = await callAPI(`${endpoint}?${stringParams}`)
   return response
 }
