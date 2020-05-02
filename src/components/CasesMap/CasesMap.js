@@ -9,22 +9,22 @@ import {
   ListItemText,
   Avatar,
   ListItemAvatar,
-  Fab,
 } from '@material-ui/core'
 import useSupercluster from 'use-supercluster'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import { isMobile } from 'react-device-detect'
 
 import Marker from './Marker/Marker'
 import Cluster from './Cluster/Cluster'
 import {
-  Container,
+  MapContentContainer,
+  ReportFAB,
+  RefreshFAB,
   PopoverView,
   IconContainer,
   RefreshIcon,
-  ReportIconContainer,
   RecordVoiceOverIcon,
-  RefreshIconContainer,
 } from './CasesMap.styles'
 
 import { useLocation } from '../../hooks'
@@ -152,33 +152,38 @@ function CasesMap() {
       onViewportChange={setViewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
     >
-      <Container>
+      <MapContentContainer>
         {showRefreshBtn && (
-          <RefreshIconContainer>
-            <Fab
-              variant="extended"
-              size="medium"
-              aria-label="atualizar"
-              onClick={onClickRefreshBtn}
-            >
-              <IconContainer>
-                <RefreshIcon />
-              </IconContainer>
-              {t('Atualizar')}
-            </Fab>
-          </RefreshIconContainer>
-        )}
-        <ReportIconContainer>
-          <Fab
+          <RefreshFAB
             variant="extended"
-            color="secondary"
-            size="large"
-            aria-label="Reportar problema de saude"
-            onClick={onClickReportBtn}
+            size="medium"
+            aria-label="atualizar"
+            onClick={onClickRefreshBtn}
           >
+            <IconContainer>
+              <RefreshIcon />
+            </IconContainer>
+            {t('Atualizar')}
+          </RefreshFAB>
+        )}
+        <ReportFAB
+          variant="extended"
+          color="secondary"
+          size="large"
+          aria-label="Reportar problema de saude"
+          onClick={onClickReportBtn}
+        >
+          {isMobile ? (
             <RecordVoiceOverIcon />
-          </Fab>
-        </ReportIconContainer>
+          ) : (
+            <>
+              <IconContainer>
+                <RecordVoiceOverIcon />
+              </IconContainer>
+              {t('Reportar Sintomas')}
+            </>
+          )}
+        </ReportFAB>
         {clusters.map(
           ({
             id,
@@ -237,7 +242,7 @@ function CasesMap() {
             )
           }
         )}
-      </Container>
+      </MapContentContainer>
     </ReactMapGL>
   )
 }
