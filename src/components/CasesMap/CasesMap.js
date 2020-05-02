@@ -12,12 +12,18 @@ import {
   Fab,
 } from '@material-ui/core'
 import useSupercluster from 'use-supercluster'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
 import Marker from './Marker/Marker'
 import Cluster from './Cluster/Cluster'
 import {
+  Container,
   PopoverView,
+  IconContainer,
   RefreshIcon,
+  ReportIconContainer,
+  RecordVoiceOverIcon,
   RefreshIconContainer,
 } from './CasesMap.styles'
 
@@ -27,6 +33,8 @@ import { fetchReports } from '../../api'
 
 function CasesMap() {
   const mapRef = useRef()
+  const history = useHistory()
+  const { t } = useTranslation()
   const [markers, setMarkers] = useState([])
   const [popoverInfo, setPopoverInfo] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -128,6 +136,10 @@ function CasesMap() {
     setShowRefreshBtn(false)
   }
 
+  function onClickReportBtn() {
+    history.push('/reportar')
+  }
+
   const open = Boolean(anchorEl)
   const popoverId = open ? 'simple-popover' : undefined
 
@@ -140,7 +152,7 @@ function CasesMap() {
       onViewportChange={setViewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
     >
-      <>
+      <Container>
         {showRefreshBtn && (
           <RefreshIconContainer>
             <Fab
@@ -149,11 +161,24 @@ function CasesMap() {
               aria-label="atualizar"
               onClick={onClickRefreshBtn}
             >
-              <RefreshIcon />
-              Atualizar
+              <IconContainer>
+                <RefreshIcon />
+              </IconContainer>
+              {t('Atualizar')}
             </Fab>
           </RefreshIconContainer>
         )}
+        <ReportIconContainer>
+          <Fab
+            variant="extended"
+            color="secondary"
+            size="large"
+            aria-label="Reportar problema de saude"
+            onClick={onClickReportBtn}
+          >
+            <RecordVoiceOverIcon />
+          </Fab>
+        </ReportIconContainer>
         {clusters.map(
           ({
             id,
@@ -212,7 +237,7 @@ function CasesMap() {
             )
           }
         )}
-      </>
+      </Container>
     </ReactMapGL>
   )
 }
