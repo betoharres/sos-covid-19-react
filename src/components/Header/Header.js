@@ -11,12 +11,12 @@ const Header = () => {
       <Container>
         <Menu>
           <MenuItem>
-            <Link to="/" exact>
+            <Link to="/mapa" exact>
               {t('Mapa')}
             </Link>
           </MenuItem>
           <MenuItem>
-            <Link to="/cadastro">{t('Quero ser Voluntário')}</Link>
+            <Link to="/cadastro">{t('Seja Voluntário')}</Link>
           </MenuItem>
           <LoginItem>
             <Link to="/entrar">{t('Login')}</Link>

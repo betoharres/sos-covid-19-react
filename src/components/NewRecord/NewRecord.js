@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useTranslation, Trans } from 'react-i18next'
 import { Stepper, Step, StepLabel, Button } from '@material-ui/core'
 import { useStateList } from 'react-use'
@@ -16,7 +17,7 @@ import { formatSymptoms } from './Symptoms/utils'
 const steps = [<Trans key={0}>Sintomas</Trans>, <Trans key={1}>Contato</Trans>]
 const stepIndexes = [...Array(steps.length).keys()]
 
-export default function NewRecord() {
+export default function NewRecord(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [symptoms, setSymptoms] = useState(new Set())
   const [phone, setPhone] = useState('')
@@ -24,6 +25,7 @@ export default function NewRecord() {
   const { currentLocation, getCurrentPosition, hasLocation } = useLocation()
   const { currentIndex: activeStep, prev, next } = useStateList(stepIndexes)
   const { t } = useTranslation()
+  const history = useHistory()
 
   const [symptomsStep, registerPhoneNumberStep] = stepIndexes
 
@@ -33,6 +35,7 @@ export default function NewRecord() {
 
   function showNewRecordSuccessMessage() {
     alert(t('Sintomas enviados com sucesso!'))
+    history.push('/mapa')
   }
 
   async function sendSymptoms() {

@@ -39,6 +39,7 @@ export default function Symptoms({ handleOnChange }) {
                 edge="start"
                 disableRipple
                 tabIndex={-1}
+                aria-label={symptom}
                 checked={has(symptom)}
                 inputProps={{ 'aria-labelledby': symptom }}
               />

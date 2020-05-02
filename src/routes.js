@@ -8,10 +8,16 @@ import { Signup, Login, Map, Symptoms } from './pages'
 const Routes = () => {
   return (
     <Router>
-      {!isMobile && <Header />}
+      <Header />
       <Switch>
         <Route path="/" exact>
           {isMobile ? <Symptoms /> : <Map />}
+        </Route>
+        <Route path="/mapa" exact>
+          <Map />
+        </Route>
+        <Route path="/reportar" exact>
+          <Symptoms />
         </Route>
         <Route path="/cadastro">
           <Signup />
