@@ -1,12 +1,18 @@
+import { Fab } from '@material-ui/core'
+import { isMobile } from 'react-device-detect'
 import MUIRefreshIcon from '@material-ui/icons/Refresh'
 import MUIRecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver'
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const MapContentContainer = styled.div`
+  height: 100vh;
+`
+
+export const ActionButtonsContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: 90%;
+  height: 100vh;
 `
 
 export const PopoverView = styled.div`
@@ -18,17 +24,27 @@ export const IconContainer = styled.div`
 `
 
 export const RefreshIconContainer = styled.div`
-  display: flex;
-  flex: 1;
   justify-content: center;
   margin-top: 20px;
 `
 
 export const ReportIconContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  margin: 0;
+  top: 250px;
+  left: 250px;
+`
+
+export const RefreshFAB = styled(Fab)`
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+export const ReportFAB = styled(Fab)`
+  position: fixed;
+  top: 85%;
+  left: ${isMobile ? '50%' : '80%'};
+  transform: translate(-80%, -50%);
 `
 
 export const RefreshIcon = styled(MUIRefreshIcon)``
