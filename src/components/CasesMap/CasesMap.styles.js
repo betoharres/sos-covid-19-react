@@ -4,15 +4,13 @@ import MUIRefreshIcon from '@material-ui/icons/Refresh'
 import MUIRecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver'
 import styled from 'styled-components'
 
+export const MapContainer = styled.div``
+
 export const MapContentContainer = styled.div`
-  height: 100vh;
+  height: 100%;
 `
 
 export const ActionButtonsContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  height: 100vh;
 `
 
 export const PopoverView = styled.div`
@@ -37,14 +35,14 @@ export const ReportIconContainer = styled.div`
 export const RefreshFAB = styled(Fab)`
   position: fixed;
   top: 5%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 30%;
+  transform: translate(-30%, -50%);
 `
 export const ReportFAB = styled(Fab)`
   position: fixed;
   top: 85%;
-  left: ${isMobile ? '50%' : '80%'};
-  transform: translate(-80%, -50%);
+  left: ${isMobile ? '80%' : '80%'};
+  transform: translate(-50%, -50%);
 `
 
 export const RefreshIcon = styled(MUIRefreshIcon)``
