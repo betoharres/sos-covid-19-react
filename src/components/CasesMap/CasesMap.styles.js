@@ -10,8 +10,7 @@ export const MapContentContainer = styled.div`
   height: 100%;
 `
 
-export const ActionButtonsContainer = styled.div`
-`
+export const ActionButtonsContainer = styled.div``
 
 export const PopoverView = styled.div`
   padding: 5px;
@@ -35,12 +34,12 @@ export const ReportIconContainer = styled.div`
 export const RefreshFAB = styled(Fab)`
   position: fixed;
   top: 5%;
-  left: 30%;
-  transform: translate(-30%, -50%);
+  left: ${isMobile ? 'calc(50% - 45px)' : '30%'};
+  transform: translate(-50%, -50%);
 `
 export const ReportFAB = styled(Fab)`
   position: fixed;
-  top: 85%;
+  top: ${isMobile ? '77%' : '80%'};
   left: ${isMobile ? '80%' : '80%'};
   transform: translate(-50%, -50%);
 `
