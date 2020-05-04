@@ -48,17 +48,19 @@ export function parseBodyToCamelCase(obj) {
 
 async function parseResponse(response) {
   try {
-    const responseJson = await response.json()
-    if (responseJson && response.status >= 200 && response.status < 300) {
+    if (response.status >= 200 && response.status < 300) {
+      const responseJson = await response.json()
       const camelCaseJSONResponse = parseBodyToCamelCase(responseJson)
       return camelCaseJSONResponse
+    } else if (response.status === 401) {
+      deleteLocalAuthToken()
+      return Promise.reject(Error(response.statusText))
     } else {
-      return Promise.reject(responseJson)
+      return Promise.reject(
+        Error(`${response.status} ${response.statusText} - ${response.url}`)
+      )
     }
   } catch (error) {
-    if (response.status === 401) {
-      deleteLocalAuthToken()
-    }
     return Promise.reject(new Error(error))
   }
 }
