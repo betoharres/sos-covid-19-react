@@ -17,11 +17,14 @@ import Marker from './Marker/Marker'
 import Cluster from './Cluster/Cluster'
 import { PopoverView } from './CasesMap.styles'
 
+import Modal from '../Modal/Modal'
+
 import { useLocation } from '../../hooks'
 import { stateColors } from '../../constants'
 import { fetchReports } from '../../api'
 
 function CasesMap() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [markers, setMarkers] = useState([])
   const [popoverInfo, setPopoverInfo] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -36,13 +39,19 @@ function CasesMap() {
   })
   const bounds =
     mapRef.current && mapRef.current.getMap().getBounds().toArray().flat()
+  
+  const openModal = ({ reportData}) => {
+    setIsModalOpen(true)
+  }
 
   const points = useMemo(
     () =>
       markers.map(
-        ({ id, latitude, longitude, phoneNumber, aasmState: state }) => ({
+        ({ 
+          id, latitude, longitude, phoneNumber, aasmState: state, ...reportData 
+        }) => ({
           type: 'Feature',
-          properties: { reportId: id, phoneNumber, state },
+          properties: { reportId: id, phoneNumber, state, reportData },
           geometry: {
             type: 'Point',
             coordinates: [parseFloat(longitude), parseFloat(latitude)],
@@ -122,15 +131,17 @@ function CasesMap() {
   const popoverId = open ? 'simple-popover' : undefined
 
   return (
-    <ReactMapGL
-      {...viewport}
-      ref={setMapRef}
-      maxZoom={16}
-      minZoom={10}
-      onViewportChange={setViewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
-    >
-      {clusters.map(
+    <>
+      <Modal isOpen={isModalOpen} />
+      <ReactMapGL
+        {...viewport}
+        ref={setMapRef}
+        maxZoom={16}
+        minZoom={10}
+        onViewportChange={setViewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAP_KEY}
+      >
+        {clusters.map(
         ({
           id,
           properties: {
@@ -168,9 +179,11 @@ function CasesMap() {
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
               >
-                {popoverInfo.map(({ reportId, phoneNumber, state }) => (
+                {popoverInfo.map(({ 
+                  reportId, phoneNumber, state, reportData, 
+                }) => (
                   <PopoverView key={`${reportId}`}>
-                    <ListItem button onClick={Function.prototype}>
+                    <ListItem button onClick={() => openModal({ reportData })}>
                       <ListItemAvatar>
                         <Avatar
                           style={{ backgroundColor: stateColors[state] }}
@@ -185,7 +198,8 @@ function CasesMap() {
           )
         }
       )}
-    </ReactMapGL>
+      </ReactMapGL>
+    </>
   )
 }
 
