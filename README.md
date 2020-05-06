@@ -97,4 +97,5 @@ REACT_APP_API_URL=http://localhost:3000
 
 # [Slack](https://soscovid-19.slack.com) 
 
-## [Slack Convites Abertos](https://join.slack.com/t/soscovid-19/shared_invite/zt-dfmc8cz4-3ksiDqD9VElWC~6tlHzWkA)
+## [Slack Convites
+Abertos](https://join.slack.com/t/soscovid-19/shared_invite/zt-dxzg8hav-wWxYBsSGPOI~mksxuBe_jQ)
