@@ -33,6 +33,7 @@ export default function Register() {
       email: localVolunteer.email,
       identifier_type: localVolunteer.identifierType,
       identifier: localVolunteer.identifier,
+      website: localVolunteer.website,
       phone: localVolunteer.phoneNumber,
     },
     validationSchema: Yup.object().shape({
@@ -52,6 +53,7 @@ export default function Register() {
       email: Yup.string()
         .email(t('E-mail inválido'))
         .required(t('Obrigatório')),
+      site: Yup.string().url(),
       password: Yup.string().min(6).required(t('Obrigatório')),
     }),
   })
@@ -140,6 +142,16 @@ export default function Register() {
               id="identifier"
               name="identifier"
               label={t('Identificação')}
+              onChange={handleChange}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <TextField
+              type="text"
+              variant="outlined"
+              id="website"
+              name="website"
+              label={t('Site')}
               onChange={handleChange}
             />
           </FieldContainer>

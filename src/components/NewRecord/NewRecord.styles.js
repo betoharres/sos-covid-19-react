@@ -1,21 +1,21 @@
 import styled from 'styled-components'
-import { Typography as MUITypography } from '@material-ui/core'
+import {
+  Typography as MUITypography,
+  Paper as MUIPaper,
+} from '@material-ui/core'
 
-export const Container = styled.div`
-  flex: 1;
-  height: 100vh;
-  width: 100%;
+export const Container = styled.section`
   background-color: lightgrey;
-  margin: 0;
+  padding-top: 20px;
+  height: 100%;
+  min-height: 100vh;
 `
+
+export const Paper = styled(MUIPaper)``
 
 export const Typography = styled(MUITypography)`
   margin-top: 10px;
   margin-bottom: 10px;
-`
-
-export const StepContainer = styled.div`
-  background-color: white;
 `
 
 export const ActionContainer = styled.div`
