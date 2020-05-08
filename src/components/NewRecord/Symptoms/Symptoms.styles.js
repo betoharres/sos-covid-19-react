@@ -31,7 +31,6 @@ export const FieldContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  width: 100%;
   padding: 20px;
   padding-top: 0;
 `

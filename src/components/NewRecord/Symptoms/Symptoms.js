@@ -59,7 +59,7 @@ export default function Symptoms({ onPressNext }) {
         .max(500, t('Deve ser menor que 500'))
         .required(t('Obrigatório')),
       description: Yup.string()
-        .length(200, t('Máximo 200 caracteres'))
+        .max(200, t('Máximo 200 caracteres'))
         .nullable(),
     }),
   })

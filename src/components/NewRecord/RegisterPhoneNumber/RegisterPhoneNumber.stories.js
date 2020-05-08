@@ -6,4 +6,6 @@ export default {
   title: 'NewRecord/Steps/RegisterPhoneNumber',
 }
 
-export const Default = () => <RegisterPhoneNumber />
+export const Default = () => (
+  <RegisterPhoneNumber onPressPrev={Function.prototype} />
+)
