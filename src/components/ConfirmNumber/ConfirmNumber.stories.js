@@ -1,5 +1,6 @@
 import React from 'react'
 import ConfirmNumber from './ConfirmNumber'
+import '../../i18n'
 
 export default {
   component: ConfirmNumber,
