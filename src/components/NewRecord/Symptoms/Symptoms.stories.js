@@ -6,4 +6,4 @@ export default {
   title: 'NewRecord/Steps/Symptoms',
 }
 
-export const Default = () => <Symptoms handleOnChange={Function.prototype} />
+export const Default = () => <Symptoms onPressNext={Function.prototype} />
