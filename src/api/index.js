@@ -54,14 +54,12 @@ async function parseResponse(response) {
       return camelCaseJSONResponse
     } else if (response.status === 401) {
       deleteLocalAuthToken()
-      return Promise.reject(Error(response.statusText))
+      return Promise.reject(response)
     } else {
-      return Promise.reject(
-        Error(`${response.status} ${response.statusText} - ${response.url}`)
-      )
+      return Promise.reject(response)
     }
   } catch (error) {
-    return Promise.reject(new Error(error))
+    return Promise.reject(response)
   }
 }
 
