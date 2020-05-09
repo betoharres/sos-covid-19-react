@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { func } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useLocalStorage, useSet } from 'react-use'
+import { useSet } from 'react-use'
 
 import {
   ListItemIcon,
@@ -24,13 +24,12 @@ import {
   SymptomsContainer,
 } from './Symptoms.styles'
 
-import { useLocation } from '../../../hooks'
+import { useLocation, useLocalStorage } from '../../../hooks'
 import { patientKey } from '../../../constants'
 import { formatSymptoms } from './utils'
 
 export default function Symptoms({ onPressNext }) {
-  const [, savePatientLocally] = useLocalStorage(patientKey)
-  const [isLoading, setIsLoading] = useState(false)
+  const [, setPatient] = useLocalStorage(patientKey)
   const { t } = useTranslation()
   const { currentLocation, getCurrentPosition, hasLocation } = useLocation()
   const [selectedSymptoms, { has, toggle }] = useSet(new Set())
@@ -42,7 +41,7 @@ export default function Symptoms({ onPressNext }) {
       description: null,
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(t('Obrigatório')).nullable(),
+      name: Yup.string().required(t('Obrigatório')).nullable().trim(),
       age: Yup.number(t('Deve ser um número'))
         .nullable()
         .integer(t('Deve ser somente número'))
@@ -60,7 +59,8 @@ export default function Symptoms({ onPressNext }) {
         .required(t('Obrigatório')),
       description: Yup.string()
         .max(200, t('Máximo 200 caracteres'))
-        .nullable(),
+        .nullable()
+        .trim(),
     }),
   })
 
@@ -74,20 +74,21 @@ export default function Symptoms({ onPressNext }) {
   ]
 
   async function onSubmit() {
-    setIsLoading(true)
     const formattedSymptoms = formatSymptoms(selectedSymptoms)
     try {
       const { latitude, longitude } = hasLocation
         ? currentLocation
         : await getCurrentPosition()
-      savePatientLocally({
-        patient: { ...formattedSymptoms, latitude, longitude, ...values },
-      })
+      const patientData = {
+        latitude,
+        longitude,
+        ...formattedSymptoms,
+        ...values,
+      }
+      setPatient(patientData)
       onPressNext()
     } catch {
       alert(t('Não foi possível obter sua localização. Tente novamente'))
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -210,7 +211,7 @@ export default function Symptoms({ onPressNext }) {
         </Button>
         <Button
           onClick={onSubmit}
-          disabled={isLoading || isFormInvalid()}
+          disabled={isFormInvalid()}
           variant="contained"
           aria-label={t('Ir para o próximo passo')}
           color="primary"

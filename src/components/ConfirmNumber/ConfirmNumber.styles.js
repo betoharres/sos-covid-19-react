@@ -27,4 +27,13 @@ export const ButtonContainer = styled.div`
   align-items: center;
   margin-top: 20px;
 `
+
+export const ResendLinkContainer = styled.div`
+  display: flex;
+  flex: 1;
+  margin-top: 20px;
+  justify-content: center;
+  cursor: pointer;
+`
+
 export const Button = styled(MUIButton)``

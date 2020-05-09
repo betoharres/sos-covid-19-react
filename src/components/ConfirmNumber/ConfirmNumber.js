@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { func, string } from 'prop-types'
-import { TextField, InputAdornment, Divider } from '@material-ui/core'
+import {
+  TextField,
+  InputAdornment,
+  Divider,
+  Link,
+  Typography,
+} from '@material-ui/core'
 import SmsIcon from '@material-ui/icons/Sms'
 import { useTranslation } from 'react-i18next'
 
@@ -11,20 +17,45 @@ import {
   PhoneFieldView,
   Button,
   ButtonContainer,
+  ResendLinkContainer,
 } from './ConfirmNumber.styles'
 
-import { postCode } from '../../api'
+import { postCode, requestResendSMS } from '../../api'
 
 export default function ConfirmNumber({ phone, onSubmit }) {
+  const [isLoading, setIsLoading] = useState()
   const { t } = useTranslation()
   const [code, setCode] = useState(null)
 
   async function handleOnSubmit() {
+    setIsLoading(true)
     try {
       const { success, ...response } = await postCode(phone, code)
       onSubmit({ code, response, success })
     } catch {
       alert(t('Não foi possível enviar o código SMS. Tente novamente'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleResendSMS() {
+    setIsLoading(true)
+    try {
+      const response = await requestResendSMS(phone)
+      if (response.success) {
+        alert(t(`Código SMS enviado para ${phone}`))
+      }
+    } catch (response) {
+      if (response.status === 404) {
+        alert(t('Cadastro expirado. Faça o registro dos sintomas novamente.'))
+      } else if (response.status === 406) {
+        alert(t('Aguarde alguns minutos para reenviar.'))
+      } else {
+        alert(t('Não foi possível reenviar seu pedido. Tente novamente.'))
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -57,9 +88,21 @@ export default function ConfirmNumber({ phone, onSubmit }) {
           }}
         />
       </PhoneFieldView>
+      <ResendLinkContainer>
+        <Typography>
+          <Link onClick={handleResendSMS}>
+            {t('Ainda não recebeu SMS? Clique aqui para reenviar')}
+          </Link>
+        </Typography>
+      </ResendLinkContainer>
       <ButtonContainer>
-        <Button color="primary" variant="contained" onClick={handleOnSubmit}>
-          {t('Enviar')}
+        <Button
+          color="primary"
+          variant="contained"
+          disabled={isLoading}
+          onClick={handleOnSubmit}
+        >
+          {t('Enviar Código')}
         </Button>
       </ButtonContainer>
     </Container>
