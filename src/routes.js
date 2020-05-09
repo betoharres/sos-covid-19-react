@@ -16,7 +16,7 @@ const Routes = () => {
         <Route path="/mapa" exact>
           <Map />
         </Route>
-        <Route path="/reportar" exact>
+        <Route path="/sintomas" exact>
           <Symptoms />
         </Route>
         <Route path="/cadastro">

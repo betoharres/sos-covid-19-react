@@ -54,14 +54,12 @@ async function parseResponse(response) {
       return camelCaseJSONResponse
     } else if (response.status === 401) {
       deleteLocalAuthToken()
-      return Promise.reject(Error(response.statusText))
+      return Promise.reject(response)
     } else {
-      return Promise.reject(
-        Error(`${response.status} ${response.statusText} - ${response.url}`)
-      )
+      return Promise.reject(response)
     }
   } catch (error) {
-    return Promise.reject(new Error(error))
+    return Promise.reject(response)
   }
 }
 
@@ -122,3 +120,16 @@ export async function postLogin(credentials) {
   const response = await callAPI('/login', 'POST', credentials)
   return response
 }
+
+export async function requestResendSMS(number) {
+  const response = await callAPI('/phones/resend_sms_code', 'POST', {
+    phone: { number },
+  })
+  return response
+}
+
+export async function postPhone(number) {
+  const response = await callAPI('/phones', 'POST', { phone: { number } })
+  return response
+}
+

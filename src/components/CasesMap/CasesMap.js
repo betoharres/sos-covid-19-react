@@ -147,7 +147,7 @@ function CasesMap() {
   }
 
   function onClickReportBtn() {
-    history.push('/reportar')
+    history.push('/sintomas')
   }
 
   const open = Boolean(anchorEl)

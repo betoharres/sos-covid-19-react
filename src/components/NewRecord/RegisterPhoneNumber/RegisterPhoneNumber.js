@@ -9,7 +9,6 @@ import {
 import InputMask from 'react-input-mask'
 import PhoneIcon from '@material-ui/icons/Phone'
 import { useTranslation } from 'react-i18next'
-import { useLocalStorage } from 'react-use'
 import { useHistory } from 'react-router-dom'
 
 import ConfirmNumber from '../../ConfirmNumber/ConfirmNumber'
@@ -24,10 +23,11 @@ import {
 import './RegisterPhoneNumber.translations'
 
 import { postSymptoms } from '../../../api'
+import { useLocalStorage } from '../../../hooks'
 import { patientKey } from '../../../constants'
 
 export default function RegisterPhoneNumber({ onPressPrev }) {
-  const [{ patient }] = useLocalStorage(patientKey)
+  const [patient] = useLocalStorage(patientKey)
   const [isLoading, setIsLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [phone, setPhone] = useState(null)
@@ -39,15 +39,21 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
   }
 
   function disableSubmitButton() {
-    return !phone.replace(/(55)|\D|_/g, '').length
+    return phone && !phone.length
+  }
+
+  function formatAndSetPhone(value) {
+    if (value) {
+      setPhone(`+55${value.replace(/(55)|\D|_/g, '')}`)
+    }
   }
 
   async function onSubmit() {
-    const formattedPhone = `+55${phone.replace(/-|\(|\)|\s/g, '')}`
-    patient.phone = formattedPhone
+    setIsLoading(true)
+    patient.phone = phone
     try {
-      const { isSmsSent } = await postSymptoms(patient)
-      if (isSmsSent) {
+      const response = await postSymptoms(patient)
+      if (response.isSmsSent) {
         setIsModalOpen(true)
       } else {
         showNewRecordSuccessMessage()
@@ -80,7 +86,10 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
           {t('Celular para contato')}
         </Title>
         <PhoneFieldView>
-          <InputMask mask="(99) 999-99-99-99" onChange={setPhone}>
+          <InputMask
+            mask="(99) 999-99-99-99"
+            onChange={({ target: { value } }) => formatAndSetPhone(value)}
+          >
             {() => (
               <TextField
                 type="tel"
