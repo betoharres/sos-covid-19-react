@@ -122,3 +122,16 @@ export async function postLogin(credentials) {
   const response = await callAPI('/login', 'POST', credentials)
   return response
 }
+
+export async function requestResendSMS(number) {
+  const response = await callAPI('/phones/resend_sms_code', 'POST', {
+    phone: { number },
+  })
+  return response
+}
+
+export async function postPhone(number) {
+  const response = await callAPI('/phones', 'POST', { phone: { number } })
+  return response
+}
+
