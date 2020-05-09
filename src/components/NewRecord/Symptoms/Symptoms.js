@@ -146,8 +146,8 @@ export default function Symptoms({ onPressNext }) {
             type="number"
             id="weight"
             name="weight"
-            label={t('Peso')}
-            aria-label={t('Insira peso')}
+            label={t('Peso(kg)')}
+            aria-label={t('Insira peso em kilogramas')}
             onBlur={handleBlur}
             error={touched.weight && errors.weight}
             onChange={handleChange}
