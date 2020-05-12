@@ -17,6 +17,7 @@ export const ListItem = styled(MUIListItem)``
 export const SubTitleContainer = styled.div`
   display: flex;
   flex: 1;
+  flex-direction: column;
   justify-conent: flex-end;
   padding: 20px;
   padding-bottom: 10px;

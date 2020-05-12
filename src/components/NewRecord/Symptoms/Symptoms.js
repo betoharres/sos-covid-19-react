@@ -67,7 +67,7 @@ export default function Symptoms({ onPressNext }) {
   const symptomLabels = [
     t('Febre'),
     t('Cansaço'),
-    t('Tosse seca'),
+    t('Tosse'),
     t('Dor de cabeça'),
     t('Perda do olfato'),
     t('Perda do paladar'),
@@ -125,7 +125,8 @@ export default function Symptoms({ onPressNext }) {
           <TextField
             fullWidth
             required
-            type="number"
+            type="tel"
+            pattern="[0-9]"
             id="age"
             name="age"
             label={t('Idade')}
@@ -144,8 +145,9 @@ export default function Symptoms({ onPressNext }) {
           <TextField
             fullWidth
             required
-            type="number"
+            type="tel"
             id="weight"
+            pattern="[0-9]"
             name="weight"
             label={t('Peso(kg)')}
             aria-label={t('Insira peso em kilogramas')}
@@ -183,17 +185,21 @@ export default function Symptoms({ onPressNext }) {
           ))}
         </SymptomsContainer>
         <SubTitleContainer>
-          <Typography variant="h4">{t('Observações')}</Typography>
+          <Typography variant="h4">{t('Mais detalhes')}</Typography>
+          <Typography gutterBottom variant="caption">
+            {t('Máximo de 200 caracteres')}
+          </Typography>
         </SubTitleContainer>
         <FieldContainer>
           <TextField
             multiline
             rowsMin={5}
             fullWidth
-            type="number"
+            type="text"
             id="description"
             name="description"
-            aria-label={t('Insira observações sobre seu caso')}
+            label={t('Conte mais sobre seu caso')}
+            aria-label={t('Conte mais sobre seu caso')}
             onBlur={handleBlur}
             error={touched.description && errors.description}
             onChange={handleChange}
