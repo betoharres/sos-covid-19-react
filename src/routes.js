@@ -16,9 +16,11 @@ const Routes = () => {
         <Route path="/mapa" exact>
           <Map />
         </Route>
-        <Route path="/sintomas" exact>
-          <Symptoms />
-        </Route>
+        {isMobile && (
+          <Route path="/sintomas" exact>
+            <Symptoms />
+          </Route>
+        )}
         <Route path="/cadastro">
           <Signup />
         </Route>
