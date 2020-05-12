@@ -178,26 +178,24 @@ function CasesMap() {
             {t('Atualizar')}
           </RefreshFAB>
         </RefreshContainer>
-        <SymptomsBtnContainer>
-          <ReportFAB
-            variant="extended"
-            color="secondary"
-            size="large"
-            aria-label="Reportar sintomas de covid-19"
-            onClick={onClickReportBtn}
-          >
-            {isMobile ? (
-              <RecordVoiceOverIcon />
-            ) : (
+        {isMobile && (
+          <SymptomsBtnContainer>
+            <ReportFAB
+              variant="extended"
+              color="secondary"
+              size="large"
+              aria-label="Reportar sintomas de covid-19"
+              onClick={onClickReportBtn}
+            >
               <>
                 <IconContainer>
                   <RecordVoiceOverIcon />
                 </IconContainer>
                 {t('Reportar Sintomas')}
               </>
-            )}
-          </ReportFAB>
-        </SymptomsBtnContainer>
+            </ReportFAB>
+          </SymptomsBtnContainer>
+        )}
         {clusters.map(
           ({
             id,
@@ -221,6 +219,7 @@ function CasesMap() {
                     />
                   ) : (
                     <Marker
+                      zoom={viewport.zoom}
                       state={reportData.state}
                       onClick={(event) =>
                         handleClickMarker({ event, reportData })
@@ -228,30 +227,32 @@ function CasesMap() {
                     />
                   )}
                 </MapBoxMarker>
-                <Popover
-                  id={popoverId}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                  transformOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  }}
-                >
-                  {popoverInfo.map(({ reportId, phoneNumber, state }) => (
-                    <PopoverView key={`${reportId}`}>
-                      <ListItem button onClick={Function.prototype}>
-                        <ListItemAvatar>
-                          <Avatar
-                            style={{ backgroundColor: stateColors[state] }}
-                          />
-                        </ListItemAvatar>
-                        <ListItemText>{phoneNumber}</ListItemText>
-                      </ListItem>
-                    </PopoverView>
-                  ))}
-                </Popover>
+                {reportData && reportData.phoneNumber && (
+                  <Popover
+                    id={popoverId}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    transformOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                  >
+                    {popoverInfo.map(({ reportId, phoneNumber, state }) => (
+                      <PopoverView key={`${reportId}`}>
+                        <ListItem button onClick={Function.prototype}>
+                          <ListItemAvatar>
+                            <Avatar
+                              style={{ backgroundColor: stateColors[state] }}
+                            />
+                          </ListItemAvatar>
+                          <ListItemText>{phoneNumber}</ListItemText>
+                        </ListItem>
+                      </PopoverView>
+                    ))}
+                  </Popover>
+                )}
               </div>
             )
           }

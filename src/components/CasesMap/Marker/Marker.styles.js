@@ -3,6 +3,9 @@ import { PersonPinCircle as MUIPersonPinCircle } from '@material-ui/icons'
 
 export const Container = styled.div``
 
+const randomMarginLeft = Math.abs(Math.random() * (90 - 20) + 20)
+const randomMarginBottom = Math.abs(Math.random() * (90 - 20) + 20)
+
 export const PersonPinCircle = styled(MUIPersonPinCircle).attrs(
   ({ color }) => ({
     color: 'inherit',
@@ -22,10 +25,12 @@ export const PersonPinCircle = styled(MUIPersonPinCircle).attrs(
 `
 
 export const Circle = styled.span`
-  ${({ color }) => `
+  ${({ color, zoom }) => `
     opacity: 0.6;
-    height: 200px;
-    width: 200px;
+    margin-left: -${randomMarginLeft}px;
+    margin-bottom: -${randomMarginBottom}px;
+    height: ${(zoom ** 2) * 0.7}px;
+    width: ${(zoom ** 2) * 0.7}px;
     border-radius: 50%;
     display: inline-block;
     background-color: ${color};

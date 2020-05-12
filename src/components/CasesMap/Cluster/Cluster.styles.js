@@ -5,7 +5,8 @@ export const Container = styled.div`
     color: #fff;
     background: #1978c8;
     border-radius: 50%;
-    padding: 10px;
+    padding: 25px;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
