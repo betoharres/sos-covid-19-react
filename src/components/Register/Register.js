@@ -5,6 +5,7 @@ import {
   Button,
   InputAdornment,
   IconButton,
+  Typography,
 } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -26,7 +27,7 @@ export default function Register() {
   const [showPassword, toggleShowPassword] = useToggle(false)
   const [localVolunteer, setLocalVolunteer] = useLocalStorage(volunteerKey, {})
   const { t } = useTranslation()
-  const { handleChange, values } = useFormik({
+  const { handleChange, values, errors, touched, handleBlur } = useFormik({
     onSubmit,
     initialValues: {
       name: localVolunteer.name,
@@ -42,7 +43,7 @@ export default function Register() {
         .max(40, t('Nome muito longo'))
         .required(t('Obrigatório')),
       phone: Yup.string().required(t('Obrigatório')),
-      identifierType: Yup.string()
+      identifier_type: Yup.string()
         .min(3, t('Muito curto'))
         .max(6, t('Muito longo'))
         .required(t('Obrigatório')),
@@ -53,7 +54,7 @@ export default function Register() {
       email: Yup.string()
         .email(t('E-mail inválido'))
         .required(t('Obrigatório')),
-      site: Yup.string().url(),
+      website: Yup.string().url(),
       password: Yup.string().min(6).required(t('Obrigatório')),
     }),
   })
@@ -105,10 +106,20 @@ export default function Register() {
               id="name"
               name="name"
               label={t('Nome')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.name && errors.name}
             />
+            {touched.name && errors.name && (
+              <Typography variant="caption" color="error">
+                {errors.name}
+              </Typography>
+            )}
           </FieldContainer>
-          <InputMask mask="(99) 999-99-99-99" onChange={handlePhoneChange}>
+          <InputMask
+            mask="(99) 999-99-99-99"
+            onChange={handlePhoneChange}
+          >
             {({ onChange }) => (
               <FieldContainer>
                 <TextField
@@ -117,9 +128,16 @@ export default function Register() {
                   id="phone"
                   name="phone"
                   variant="outlined"
+                  onBlur={handleBlur}
                   onChange={onChange}
+                  error={touched.phone && errors.phone}
                   label={t('Celular')}
                 />
+                {touched.phone && errors.phone && (
+                  <Typography variant="caption" color="error">
+                    {errors.phone}
+                  </Typography>
+                )}
               </FieldContainer>
             )}
           </InputMask>
@@ -131,8 +149,15 @@ export default function Register() {
               id="identifier_type"
               name="identifier_type"
               label={t('Tipo Identificação(CRM/COREN/etc...)')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.identifier_type && errors.identifier_type}
             />
+            {touched.identifier_type && errors.identifier_type && (
+              <Typography variant="caption" color="error">
+                {errors.identifier_type}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
             <TextField
@@ -142,8 +167,15 @@ export default function Register() {
               id="identifier"
               name="identifier"
               label={t('Identificação')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.identifier && errors.identifier}
             />
+            {touched.identifier && errors.identifier && (
+              <Typography variant="caption" color="error">
+                {errors.identifier}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
             <TextField
@@ -152,8 +184,15 @@ export default function Register() {
               id="website"
               name="website"
               label={t('Site')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.website && errors.website}
             />
+            {touched.website && errors.website && (
+              <Typography variant="caption" color="error">
+                {errors.website}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
             <TextField
@@ -163,8 +202,15 @@ export default function Register() {
               id="email"
               name="email"
               label={t('E-mail')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.email && errors.email}
             />
+            {touched.email && errors.email && (
+              <Typography variant="caption" color="error">
+                {errors.email}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
             <TextField
@@ -174,7 +220,9 @@ export default function Register() {
               id="password"
               name="password"
               label={t('Senha')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.password && errors.password}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -189,9 +237,18 @@ export default function Register() {
                 ),
               }}
             />
+            {touched.password && errors.password && (
+              <Typography variant="caption" color="error">
+                {errors.password}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
-            <Button onClick={onSubmit} type="button">
+            <Button
+              onClick={onSubmit}
+              type="button"
+              disabled={Object.keys(errors).length}
+            >
               {t('Enviar')}
             </Button>
           </FieldContainer>

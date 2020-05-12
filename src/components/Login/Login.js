@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, Typography } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useLocalStorage } from 'react-use'
@@ -12,7 +12,7 @@ import { postLogin } from '../../api'
 export default function Login() {
   const [localVolunteer] = useLocalStorage(volunteerKey, {})
   const { t } = useTranslation()
-  const { handleChange, values } = useFormik({
+  const { handleChange, values, errors, touched, handleBlur } = useFormik({
     onSubmit,
     initialValues: {
       email: localVolunteer.email,
@@ -22,8 +22,7 @@ export default function Login() {
       email: Yup.string()
         .email(t('e-mail inválido'))
         .required(t('obrigatório')),
-      password: Yup.string()
-        .required(t('obrigatório')),
+      password: Yup.string().required(t('obrigatório')),
     }),
   })
 
@@ -43,8 +42,15 @@ export default function Login() {
               id="email"
               name="email"
               label={t('E-mail')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.name && errors.name}
             />
+            {touched.email && errors.email && (
+              <Typography variant="caption" color="error">
+                {errors.email}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
             <TextField
@@ -54,11 +60,22 @@ export default function Login() {
               id="password"
               name="password"
               label={t('Senha')}
+              onBlur={handleBlur}
               onChange={handleChange}
+              error={touched.name && errors.name}
             />
+            {touched.password && errors.password && (
+              <Typography variant="caption" color="error">
+                {errors.password}
+              </Typography>
+            )}
           </FieldContainer>
           <FieldContainer>
-            <Button onClick={onSubmit} type="button">
+            <Button
+              type="button"
+              onClick={onSubmit}
+              disabled={Object.keys(errors).length}
+            >
               {t('Enviar')}
             </Button>
           </FieldContainer>
