@@ -38,4 +38,5 @@ export const FieldContainer = styled.div`
 
 export const ActionContainer = styled.div`
   margin-top: 20px;
+  padding-bottom: 20px;
 `

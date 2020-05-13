@@ -93,7 +93,15 @@ export default function Symptoms({ onPressNext }) {
   }
 
   function isFormInvalid() {
-    return !(selectedSymptoms.size && !Object.keys(errors).length)
+    const { name, age, weight } = values
+    return !(
+      name &&
+      age &&
+      weight &&
+      hasLocation &&
+      selectedSymptoms.size &&
+      !Object.keys(errors).length
+    )
   }
 
   return (
