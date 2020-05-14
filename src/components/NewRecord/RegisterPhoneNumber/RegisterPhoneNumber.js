@@ -22,9 +22,14 @@ import {
 } from './RegisterPhoneNumber.styles'
 import './RegisterPhoneNumber.translations'
 
-import { postSymptoms } from '../../../api'
 import { useLocalStorage } from '../../../hooks'
 import { patientKey } from '../../../constants'
+import { postSymptoms, postPhone, requestResendSMS } from '../../../api'
+import {
+  setLocalPhoneToken,
+  getLocalPhoneToken,
+  deleteLocalPhoneToken,
+} from '../../../storage'
 
 export default function RegisterPhoneNumber({ onPressPrev }) {
   const [patient] = useLocalStorage(patientKey)
@@ -38,8 +43,8 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
     alert(t('Sintomas enviados com sucesso!'))
   }
 
-  function disableSubmitButton() {
-    return phone && !phone.length
+  function canContinue() {
+    return (phone && !phone.length) || isLoading
   }
 
   function formatAndSetPhone(value) {
@@ -48,31 +53,73 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
     }
   }
 
-  async function onSubmit() {
-    setIsLoading(true)
-    patient.phone = phone
+  async function createNewPhoneRecord(phone) {
     try {
-      const response = await postSymptoms(patient)
+      const response = await postPhone(phone)
+      setLocalPhoneToken(phone, response.token)
       if (response.isSmsSent) {
         setIsModalOpen(true)
-      } else {
-        showNewRecordSuccessMessage()
-        history.push('/mapa')
       }
-    } catch {
-      alert(t('Não foi possível enviar seus sintomas. Tente novamente'))
-    } finally {
-      setIsLoading(false)
+      return response
+    } catch (response) {
+      deleteLocalPhoneToken(phone)
+      const json = await response.json()
+      if (json.number[0] === 'has already been taken') {
+        await handleResendSMS()
+      } else {
+        alert(t('Não foi possível cadastrar seu telefone.'))
+      }
     }
   }
 
-  function handleSubmitPhoneValidation({ success }) {
-    if (success) {
-      setIsModalOpen(false)
+  async function createNewPatientRecord(patient, phoneToken) {
+    try {
+      await postSymptoms({ ...patient, phone_token: phoneToken })
       showNewRecordSuccessMessage()
       history.push('/mapa')
+    } catch (error) {
+      alert(t('Não foi possível registrar seus sintomas. Tente novamente.'))
+    }
+  }
+
+  async function onSubmit() {
+    setIsLoading(true)
+    const phoneToken = getLocalPhoneToken(phone)
+    if (phoneToken) {
+      await createNewPatientRecord(patient, phoneToken)
     } else {
-      alert('Erro. Tente novamente.')
+      await createNewPhoneRecord(phone)
+    }
+    setIsLoading(false)
+  }
+
+  async function handleSubmitPhoneValidation({ success, token }) {
+    if (success) {
+      await createNewPatientRecord(patient, token)
+      setIsModalOpen(false)
+    } else {
+      alert('Código inválido. Tente novamente.')
+    }
+  }
+
+  async function handleResendSMS() {
+    setIsLoading(true)
+    try {
+      const { success } = await requestResendSMS(phone)
+      if (success) {
+        alert(t(`Código SMS enviado para ${phone}`))
+        setIsModalOpen(true)
+      }
+    } catch (response) {
+      if (response.status === 404) {
+        alert(t('Cadastro expirado. Faça o registro dos sintomas novamente.'))
+      } else if (response.status === 406) {
+        alert(t('Aguarde alguns minutos para reenviar código SMS.'))
+      } else {
+        alert(t('Não foi possível reenviar seu pedido. Tente novamente.'))
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -122,7 +169,7 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
         </Button>
         <Button
           onClick={onSubmit}
-          disabled={isLoading || disableSubmitButton()}
+          disabled={canContinue()}
           variant="contained"
           aria-label={t('Enviar sintomas e número de telefone')}
           color="primary"

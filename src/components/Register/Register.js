@@ -39,23 +39,25 @@ export default function Register() {
     },
     validationSchema: Yup.object().shape({
       name: Yup.string()
+        .required(t('Obrigatório'))
         .min(2, t('Nome muito curto'))
-        .max(40, t('Nome muito longo'))
-        .required(t('Obrigatório')),
+        .max(40, t('Nome muito longo')),
       phone: Yup.string().required(t('Obrigatório')),
       identifier_type: Yup.string()
+        .required(t('Obrigatório'))
         .min(3, t('Muito curto'))
-        .max(6, t('Muito longo'))
-        .required(t('Obrigatório')),
+        .max(6, t('Muito longo')),
       identifier: Yup.string()
+        .required(t('Obrigatório'))
         .min(3, t('Muito curto'))
-        .max(10, t('Muito longo'))
-        .required(t('Obrigatório')),
+        .max(10, t('Muito longo')),
       email: Yup.string()
-        .email(t('E-mail inválido'))
-        .required(t('Obrigatório')),
-      website: Yup.string().url(),
-      password: Yup.string().min(6).required(t('Obrigatório')),
+        .required(t('Obrigatório'))
+        .email(t('E-mail inválido')),
+      website: Yup.string().nullable().url(),
+      password: Yup.string()
+        .required(t('Obrigatório'))
+        .min(6, t('Senha deve ser no mínimo 6 caracteres')),
     }),
   })
 
@@ -119,8 +121,10 @@ export default function Register() {
           <InputMask
             mask="(99) 999-99-99-99"
             onChange={handlePhoneChange}
+            onBlur={handleBlur}
+            error={touched.phone && errors.phone}
           >
-            {({ onChange }) => (
+            {({ onChange, onBlur }) => (
               <FieldContainer>
                 <TextField
                   required
@@ -128,7 +132,7 @@ export default function Register() {
                   id="phone"
                   name="phone"
                   variant="outlined"
-                  onBlur={handleBlur}
+                  onBlur={onBlur}
                   onChange={onChange}
                   error={touched.phone && errors.phone}
                   label={t('Celular')}

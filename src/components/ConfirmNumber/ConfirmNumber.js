@@ -20,6 +20,7 @@ import {
   ResendLinkContainer,
 } from './ConfirmNumber.styles'
 
+import { setLocalPhoneToken } from '../../storage'
 import { postCode, requestResendSMS } from '../../api'
 
 export default function ConfirmNumber({ phone, onSubmit }) {
@@ -30,9 +31,10 @@ export default function ConfirmNumber({ phone, onSubmit }) {
   async function handleOnSubmit() {
     setIsLoading(true)
     try {
-      const { success, ...response } = await postCode(phone, code)
-      onSubmit({ code, response, success })
-    } catch {
+      const { success, token, ...response } = await postCode(phone, code)
+      setLocalPhoneToken(phone, token)
+      onSubmit({ code, response, success, token })
+    } catch (error) {
       alert(t('Não foi possível enviar o código SMS. Tente novamente'))
     } finally {
       setIsLoading(false)
@@ -42,8 +44,8 @@ export default function ConfirmNumber({ phone, onSubmit }) {
   async function handleResendSMS() {
     setIsLoading(true)
     try {
-      const response = await requestResendSMS(phone)
-      if (response.success) {
+      const { success } = await requestResendSMS(phone)
+      if (success) {
         alert(t(`Código SMS enviado para ${phone}`))
       }
     } catch (response) {
