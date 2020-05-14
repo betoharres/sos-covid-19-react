@@ -132,4 +132,3 @@ export async function postPhone(number) {
   const response = await callAPI('/phones', 'POST', { phone: { number } })
   return response
 }
-

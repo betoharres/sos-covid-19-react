@@ -17,13 +17,27 @@ export function deleteLocalAuthToken() {
 }
 
 export function setLocalVolunteer(volunteer) {
-  localStorage.setItem('volunteer', JSON.stringify(volunteer))
+  localStorage.setItem(volunteerKey, JSON.stringify(volunteer))
 }
 
 export function getLocalVolunteer() {
   const volunteer = localStorage.getItem(volunteerKey)
-  if (volunteer) {
+  if (Object.keys(volunteer).length) {
     return JSON.parse(volunteer)
   }
   return null
+}
+
+export function setLocalPhoneToken(phone, token) {
+  if (token) {
+    localStorage.setItem(phone, token)
+  }
+}
+
+export function getLocalPhoneToken(phone) {
+  return localStorage.getItem(phone)
+}
+
+export function deleteLocalPhoneToken(phone) {
+  localStorage.removeItem(phone)
 }
