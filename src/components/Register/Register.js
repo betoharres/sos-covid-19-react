@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 import {
   TextField,
   Button,
@@ -27,6 +28,7 @@ export default function Register() {
   const [showPassword, toggleShowPassword] = useToggle(false)
   const [localVolunteer, setLocalVolunteer] = useLocalStorage(volunteerKey, {})
   const { t } = useTranslation()
+  const history = useHistory()
   const { handleChange, values, errors, touched, handleBlur } = useFormik({
     onSubmit,
     initialValues: {
@@ -54,7 +56,7 @@ export default function Register() {
       email: Yup.string()
         .required(t('Obrigatório'))
         .email(t('E-mail inválido')),
-      website: Yup.string().nullable().url(),
+      website: Yup.string().nullable().url(t('URL inválida')),
       password: Yup.string()
         .required(t('Obrigatório'))
         .min(6, t('Senha deve ser no mínimo 6 caracteres')),
@@ -68,7 +70,8 @@ export default function Register() {
       if (volunteer.isSmsSent) {
         setIsModalOpen(true)
       } else {
-        alert(t('Cadastro efetuado com sucesso!'))
+        alert(t('Cadastro efetuado com sucesso!\nFaça o Login para entrar.'))
+        history.push('/entrar')
       }
     } catch (error) {
       alert(t('Não foi possível efetuar o cadastro. Tente novamente'))
