@@ -4,7 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 import { Wrapper, Container, Menu, MenuItem, LoginItem } from './Header.styles'
 
+import { getLocalAuthToken } from '../../storage'
+
 const Header = () => {
+  const token = getLocalAuthToken()
   const { t } = useTranslation()
   return (
     <Wrapper>
@@ -15,12 +18,16 @@ const Header = () => {
               {t('Mapa')}
             </Link>
           </MenuItem>
-          <MenuItem>
-            <Link to="/cadastro">{t('Seja Voluntário')}</Link>
-          </MenuItem>
-          <LoginItem>
-            <Link to="/entrar">{t('Login')}</Link>
-          </LoginItem>
+          {!token && (
+            <>
+              <MenuItem>
+                <Link to="/cadastro">{t('Seja Voluntário')}</Link>
+              </MenuItem>
+              <LoginItem>
+                <Link to="/entrar">{t('Login')}</Link>
+              </LoginItem>
+            </>
+          )}
         </Menu>
       </Container>
     </Wrapper>
