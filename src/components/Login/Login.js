@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { TextField, Button, Typography } from '@material-ui/core'
 import { useFormik } from 'formik'
@@ -12,6 +13,7 @@ import { postLogin } from '../../api'
 export default function Login() {
   const [localVolunteer] = useLocalStorage(volunteerKey, {})
   const { t } = useTranslation()
+  const history = useHistory()
   const { handleChange, values, errors, touched, handleBlur } = useFormik({
     onSubmit,
     initialValues: {
@@ -26,8 +28,14 @@ export default function Login() {
     }),
   })
 
-  function onSubmit() {
-    postLogin(values)
+  async function onSubmit() {
+    try {
+      await postLogin(values)
+      alert(t('Login efetuado com sucesso!'))
+      history.push('/mapa')
+    } catch {
+      alert(t('Não foi possível efetuar o Login. Tente novamente.'))
+    }
   }
 
   return (
