@@ -175,7 +175,7 @@ function CasesMap() {
             <IconContainer>
               <RefreshIcon />
             </IconContainer>
-            {t('Atualizar')}
+            {t(isLoadingReports ? 'Aguarde...' : 'Atualizar')}
           </RefreshFAB>
         </RefreshContainer>
         {isMobile && (
