@@ -68,9 +68,11 @@ export default function Symptoms({ onPressNext }) {
     t('Febre'),
     t('Cansaço'),
     t('Tosse'),
+    t('Dor de garganta'),
     t('Dor de cabeça'),
     t('Perda do olfato'),
     t('Perda do paladar'),
+    t('Dedos avermelhados'),
   ]
 
   async function onSubmit() {
