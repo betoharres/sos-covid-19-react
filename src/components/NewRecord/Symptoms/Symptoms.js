@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { func } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
@@ -12,6 +12,10 @@ import {
   Divider,
   Button,
   Typography,
+  Switch,
+  Link,
+  FormGroup,
+  FormControlLabel,
 } from '@material-ui/core'
 import {
   Container,
@@ -29,6 +33,7 @@ import { patientKey } from '../../../constants'
 import { formatSymptoms } from './utils'
 
 export default function Symptoms({ onPressNext }) {
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false)
   const [, setPatient] = useLocalStorage(patientKey)
   const { t } = useTranslation()
   const { currentLocation, getCurrentPosition, hasLocation } = useLocation()
@@ -95,14 +100,14 @@ export default function Symptoms({ onPressNext }) {
   }
 
   function isFormInvalid() {
-    const { name, age, weight } = values
+    const { age, weight } = values
     return !(
-      name &&
       age &&
       weight &&
       hasLocation &&
       selectedSymptoms.size &&
-      !Object.keys(errors).length
+      !Object.keys(errors).length &&
+      isTermsAccepted
     )
   }
 
@@ -115,7 +120,6 @@ export default function Symptoms({ onPressNext }) {
         <FieldContainer>
           <TextField
             fullWidth
-            required
             type="text"
             id="name"
             name="name"
@@ -219,6 +223,34 @@ export default function Symptoms({ onPressNext }) {
               {errors.description}
             </Typography>
           )}
+        </FieldContainer>
+        <FieldContainer>
+          <FormGroup row>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isTermsAccepted}
+                  color="primary"
+                  onChange={() =>
+                    setIsTermsAccepted((currentState) => !currentState)
+                  }
+                />
+              }
+              label={
+                <>
+                  Eu li e concordo com os{' '}
+                  <Link
+                    color="primary"
+                    variant="inherit"
+                    href="/termosdeuso"
+                    target="_blank"
+                  >
+                    Termos de uso
+                  </Link>
+                </>
+              }
+            />
+          </FormGroup>
         </FieldContainer>
       </Paper>
       <ActionContainer>
