@@ -41,7 +41,7 @@ export default function Symptoms({ onPressNext }) {
       description: null,
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(t('Obrigatório')).nullable().trim(),
+      name: Yup.string().nullable().trim(),
       age: Yup.number(t('Deve ser um número'))
         .nullable()
         .integer(t('Deve ser somente número'))
