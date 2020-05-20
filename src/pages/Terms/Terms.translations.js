@@ -223,9 +223,7 @@ enquanto ativo o seu cadastro.
 `,
   Foro: 'DO FORO',
   '9.1_paragraph': `\
-9.1. As partes elegem o foro da Comarca de Belo Horizonte, Estado de Minas
-Gerais, para dirimir eventuais dúvidas ou controvérsias decorrentes do presente
-TERMO DE USO, excluindo-se qualquer outro, por mais privilegiado que seja.
+9.1. As partes elegem o Autor para dirimir eventuais dúvidas ou controvérsias decorrentes do presente TERMO DE USO, excluindo-se qualquer outro, por mais privilegiado que seja.
 `,
 }
 
