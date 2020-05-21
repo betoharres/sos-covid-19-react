@@ -27,6 +27,7 @@ import {
   FieldContainer,
   SubTitleContainer,
   SymptomsContainer,
+  NotesContainer,
 } from './Symptoms.styles'
 
 import { useLocation, useLocalStorage } from '../../../hooks'
@@ -286,6 +287,11 @@ export default function Symptoms({ onPressNext }) {
           {t('Próximo')}
         </Button>
       </ActionContainer>
+      <NotesContainer>
+        <Typography variant="caption">
+          {t('Atual Localização aproximada é necessária para o registro.')}
+        </Typography>
+      </NotesContainer>
     </Container>
   )
 }

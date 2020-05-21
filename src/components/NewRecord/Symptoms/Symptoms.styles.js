@@ -5,7 +5,7 @@ import {
   Paper as MUIPaper,
 } from '@material-ui/core'
 
-export const Container = styled.section`
+export const Container = styled.main`
   background-color: lightgrey;
 `
 export const TextField = styled(MUITextField)``
@@ -23,12 +23,12 @@ export const SubTitleContainer = styled.div`
   padding-bottom: 10px;
 `
 
-export const SymptomsContainer = styled.div`
+export const SymptomsContainer = styled.section`
   padding: 20px;
   padding-top: 10px;
 `
 
-export const FieldContainer = styled.div`
+export const FieldContainer = styled.section`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -38,5 +38,10 @@ export const FieldContainer = styled.div`
 
 export const ActionContainer = styled.div`
   margin-top: 20px;
+  padding-bottom: 20px;
+`
+
+export const NotesContainer = styled.section`
+  padding: 20px;
   padding-bottom: 20px;
 `
