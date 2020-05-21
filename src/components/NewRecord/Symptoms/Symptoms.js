@@ -260,11 +260,7 @@ export default function Symptoms({ onPressNext }) {
               label={
                 <>
                   Eu li e concordo com os{' '}
-                  <Link
-                    color="primary"
-                    variant="inherit"
-                    href="/termosdeuso"
-                  >
+                  <Link color="primary" variant="inherit" href="/termosdeuso">
                     Termos de uso
                   </Link>
                 </>
@@ -289,7 +285,9 @@ export default function Symptoms({ onPressNext }) {
       </ActionContainer>
       <NotesContainer>
         <Typography variant="caption">
-          {t('Atual Localização aproximada é necessária para o registro.')}
+          {t(
+            'Localização aproximada do aparelho é necessária para o registro.'
+          )}
         </Typography>
       </NotesContainer>
     </Container>
