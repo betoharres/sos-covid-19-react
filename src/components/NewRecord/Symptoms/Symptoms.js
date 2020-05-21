@@ -130,7 +130,7 @@ export default function Symptoms({ onPressNext }) {
       {showAlert && (
         <Alert severity="error">
           <AlertTitle>{t('Localização invávlida')}</AlertTitle>
-          {t('Registramos sua localização aproximada para exibir no mapa.')}
+          {t('Localização aproximada necessária.')}
         </Alert>
       )}
       <Paper>
