@@ -38,7 +38,7 @@ function CasesMap() {
   const history = useHistory()
   const { t } = useTranslation()
   const [markers, setMarkers] = useState([])
-  const [isLoadingReports, setIsLoading] = useState(false)
+  const [isLoadingReports, setIsLoadingReports] = useState(false)
   const [popoverInfo, setPopoverInfo] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [showRefreshBtn, setShowRefreshBtn] = useState(false)
@@ -84,7 +84,7 @@ function CasesMap() {
       // alert(t('Não foi possível atualizar os registros.'))
     } finally {
       setShowRefreshBtn(false)
-      setIsLoading(false)
+      setIsLoadingReports(false)
     }
   }, [])
 
@@ -142,7 +142,7 @@ function CasesMap() {
   }
 
   function onClickRefreshBtn() {
-    setIsLoading(true)
+    setIsLoadingReports(true)
     loadMarkers({ ...viewport })
   }
 
