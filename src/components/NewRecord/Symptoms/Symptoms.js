@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { func } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useSet } from 'react-use'
+import { Alert, AlertTitle } from '@material-ui/lab'
 
 import {
   ListItemIcon,
@@ -33,10 +34,16 @@ import { patientKey } from '../../../constants'
 import { formatSymptoms } from './utils'
 
 export default function Symptoms({ onPressNext }) {
+  const [showAlert, setShowAlert] = useState(false)
   const [isTermsAccepted, setIsTermsAccepted] = useState(false)
   const [, setPatient] = useLocalStorage(patientKey)
   const { t } = useTranslation()
-  const { currentLocation, getCurrentPosition, hasLocation } = useLocation()
+  const {
+    currentLocation,
+    updateLocation,
+    hasLocation,
+    isLoadingLocation,
+  } = useLocation()
   const [selectedSymptoms, { has, toggle }] = useSet(new Set())
   const { handleChange, values, errors, touched, handleBlur } = useFormik({
     initialValues: {
@@ -69,6 +76,12 @@ export default function Symptoms({ onPressNext }) {
     }),
   })
 
+  useEffect(() => {
+    if (!isLoadingLocation) {
+      setShowAlert(!hasLocation)
+    }
+  }, [isLoadingLocation, hasLocation])
+
   const symptomLabels = [
     t('Febre'),
     t('Cansaço'),
@@ -85,7 +98,7 @@ export default function Symptoms({ onPressNext }) {
     try {
       const { latitude, longitude } = hasLocation
         ? currentLocation
-        : await getCurrentPosition()
+        : await updateLocation()
       const patientData = {
         latitude,
         longitude,
@@ -95,6 +108,7 @@ export default function Symptoms({ onPressNext }) {
       setPatient(patientData)
       onPressNext()
     } catch {
+      setShowAlert(true)
       alert(t('Não foi possível obter sua localização. Tente novamente'))
     }
   }
@@ -113,6 +127,12 @@ export default function Symptoms({ onPressNext }) {
 
   return (
     <Container>
+      {showAlert && (
+        <Alert severity="error">
+          <AlertTitle>{t('Localização invávlida')}</AlertTitle>
+          {t('Registramos sua localização aproximada para exibir no mapa.')}
+        </Alert>
+      )}
       <Paper>
         <SubTitleContainer>
           <Typography variant="h4">{t('Seus dados')}</Typography>
@@ -243,7 +263,6 @@ export default function Symptoms({ onPressNext }) {
                     color="primary"
                     variant="inherit"
                     href="/termosdeuso"
-                    target="_blank"
                   >
                     Termos de uso
                   </Link>

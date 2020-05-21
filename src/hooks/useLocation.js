@@ -10,6 +10,7 @@ export default function useLocation({
   onError = Function.prototype,
 } = {}) {
   const [error, setError] = useState(null)
+  const [isLoadingLocation, setIsLoadingLocation] = useState(true)
   const [currentLocation, setCurrentLocation] = useState(() => {
     if (
       !(
@@ -46,6 +47,7 @@ export default function useLocation({
       const { coords } = await getCurrentPosition()
       setCurrentLocation(coords)
       setError(null)
+      setIsLoadingLocation(false)
       return coords
     } catch (err) {
       setError(err)
@@ -64,6 +66,7 @@ export default function useLocation({
     getCurrentPosition,
     updateLocation,
     hasLocation,
+    isLoadingLocation,
     error,
   }
 }

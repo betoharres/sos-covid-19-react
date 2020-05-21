@@ -42,7 +42,12 @@ function CasesMap() {
   const [popoverInfo, setPopoverInfo] = useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [showRefreshBtn, setShowRefreshBtn] = useState(false)
-  const { currentLocation, hasLocation, updateLocation } = useLocation()
+  const {
+    currentLocation,
+    hasLocation,
+    updateLocation,
+    isLoadingLocation,
+  } = useLocation()
   const [viewport, setViewport] = useState({
     latitude: -30.018486,
     longitude: -51.13534,
@@ -104,10 +109,10 @@ function CasesMap() {
   }, [currentLocation, hasLocation, updateLocation])
 
   useEffect(() => {
-    if (hasLocation) {
+    if (!isLoadingLocation && hasLocation) {
       loadMarkers(currentLocation)
     }
-  }, [hasLocation, loadMarkers, currentLocation])
+  }, [hasLocation, loadMarkers, currentLocation, isLoadingLocation])
 
   useEffect(() => {
     setShowRefreshBtn(true)
