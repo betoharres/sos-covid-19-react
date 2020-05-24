@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  ${({ clusteredPointsCount, mapPointsCount }) => `
+  ${({ clusteredPointsCount, mapPointsCount, zoom }) => `
     color: #fff;
     background: #1978c8;
     border-radius: 50%;
-    padding: 25px;
+    padding: ${zoom ** 1.3}px;
     font-size: 20px;
     display: flex;
     justify-content: center;

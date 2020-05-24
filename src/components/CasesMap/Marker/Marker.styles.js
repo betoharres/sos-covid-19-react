@@ -11,8 +11,8 @@ export const Circle = styled.span`
     margin-bottom: ${randomMargin - (zoom ** 2) * 0.7}px;
     margin-left: ${randomMargin - (zoom ** 2) * 0.7}px;
     margin-right: ${randomMargin - (zoom ** 2) * 0.7}px;
-    height: ${(zoom ** 2) * 0.7}px;
-    width: ${(zoom ** 2) * 0.7}px;
+    height: ${(zoom ** 2) * 0.8}px;
+    width: ${(zoom ** 2) * 0.8}px;
     border-radius: 50%;
     display: inline-block;
     background-color: ${color};

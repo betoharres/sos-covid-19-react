@@ -220,6 +220,7 @@ function CasesMap() {
                     <Cluster
                       mapPointsCount={mapPointsCount}
                       clusteredPointsCount={clusteredPointsCount}
+                      zoom={viewport.zoom}
                       onClick={(event) => handleClickCluster({ event, id })}
                     />
                   ) : (
