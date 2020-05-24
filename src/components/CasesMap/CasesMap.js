@@ -152,7 +152,9 @@ function CasesMap() {
   }
 
   function onClickReportBtn() {
-    history.push('/sintomas')
+    isMobile
+      ? history.push('/sintomas')
+      : alert(t('Entre com um celular para acessar essa página'))
   }
 
   const open = Boolean(anchorEl)
@@ -183,24 +185,22 @@ function CasesMap() {
             {t(isLoadingReports ? 'Aguarde...' : 'Atualizar')}
           </RefreshFAB>
         </RefreshContainer>
-        {isMobile && (
-          <SymptomsBtnContainer>
-            <ReportFAB
-              variant="extended"
-              color="secondary"
-              size="large"
-              aria-label="Reportar sintomas de covid-19"
-              onClick={onClickReportBtn}
-            >
-              <>
-                <IconContainer>
-                  <RecordVoiceOverIcon />
-                </IconContainer>
-                {t('Reportar Sintomas')}
-              </>
-            </ReportFAB>
-          </SymptomsBtnContainer>
-        )}
+        <SymptomsBtnContainer>
+          <ReportFAB
+            variant="extended"
+            color="secondary"
+            size="large"
+            aria-label="Reportar sintomas de covid-19"
+            onClick={onClickReportBtn}
+          >
+            <>
+              <IconContainer>
+                <RecordVoiceOverIcon />
+              </IconContainer>
+              {t('Reportar Sintomas')}
+            </>
+          </ReportFAB>
+        </SymptomsBtnContainer>
         {clusters.map(
           ({
             id,
