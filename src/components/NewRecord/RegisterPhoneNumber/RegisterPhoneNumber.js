@@ -29,6 +29,7 @@ import {
   setLocalPhoneToken,
   getLocalPhoneToken,
   deleteLocalPhoneToken,
+  deleteLocalAuthToken,
 } from '../../../storage'
 
 export default function RegisterPhoneNumber({ onPressPrev }) {
@@ -78,6 +79,8 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
       showNewRecordSuccessMessage()
       history.push('/mapa')
     } catch (error) {
+      deleteLocalPhoneToken(phone)
+      deleteLocalAuthToken(phone)
       alert(t('Não foi possível registrar seus sintomas. Tente novamente.'))
     }
   }
