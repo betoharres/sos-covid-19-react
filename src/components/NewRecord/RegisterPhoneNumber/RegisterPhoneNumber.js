@@ -10,6 +10,7 @@ import InputMask from 'react-input-mask'
 import PhoneIcon from '@material-ui/icons/Phone'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import { Alert, AlertTitle } from '@material-ui/lab'
 
 import ConfirmNumber from '../../ConfirmNumber/ConfirmNumber'
 import Modal from '../../Modal/Modal'
@@ -19,6 +20,7 @@ import {
   PhoneFieldView,
   ActionContainer,
   NotesContainer,
+  AlertContainer,
 } from './RegisterPhoneNumber.styles'
 import './RegisterPhoneNumber.translations'
 
@@ -163,9 +165,18 @@ export default function RegisterPhoneNumber({ onPressPrev }) {
           </Typography>
         </NotesContainer>
       </Container>
+      <AlertContainer>
+        {isLoading && (
+          <Alert severity="info">
+            <AlertTitle>{t('Enviando... Aguarde.')}</AlertTitle>
+            {t('O envio pode demorar até 30 segundos')}
+          </Alert>
+        )}
+      </AlertContainer>
       <ActionContainer>
         <Button
           onClick={onPressPrev}
+          disabled={isLoading}
           aria-label={t('Voltar para o formulário')}
         >
           {t('Voltar')}

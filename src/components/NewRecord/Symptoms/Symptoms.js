@@ -17,7 +17,12 @@ import {
   Link,
   FormGroup,
   FormControlLabel,
+  IconButton,
 } from '@material-ui/core'
+import HelpIcon from '@material-ui/icons/Help'
+
+import { Modal } from '../../../components'
+
 import {
   Container,
   Paper,
@@ -28,16 +33,21 @@ import {
   SubTitleContainer,
   SymptomsContainer,
   NotesContainer,
+  WelcomeContainer,
+  HelpBtnContainer,
 } from './Symptoms.styles'
 
 import { useLocation, useLocalStorage } from '../../../hooks'
-import { patientKey } from '../../../constants'
+import { patientKey, showWelcomeKey } from '../../../constants'
 import { formatSymptoms } from './utils'
+
+import './Symptoms.translations'
 
 export default function Symptoms({ onPressNext }) {
   const [showAlert, setShowAlert] = useState(false)
   const [isTermsAccepted, setIsTermsAccepted] = useState(false)
   const [, setPatient] = useLocalStorage(patientKey)
+  const [showModal, setShowModal] = useLocalStorage(showWelcomeKey, true)
   const { t } = useTranslation()
   const {
     currentLocation,
@@ -50,25 +60,25 @@ export default function Symptoms({ onPressNext }) {
     initialValues: {
       name: null,
       age: null,
-      weight: null,
+      sick_days: null,
       description: null,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().nullable().trim(),
-      age: Yup.number(t('Deve ser um número'))
+      age: Yup.number(t('Somente números'))
         .nullable()
-        .integer(t('Deve ser somente número'))
-        .typeError(t('Deve ser somente número'))
+        .integer(t('Somente números'))
+        .typeError(t('Somente números'))
         .positive(t('Número deve ser positivo'))
         .max(120, t('Número não pode ser maior que 120'))
         .required(t('Obrigatório')),
-      weight: Yup.number(t('Deve ser somente número'))
+      sick_days: Yup.number(t('Somente números'))
         .nullable()
-        .integer(t('Deve ser um número'))
-        .integer(t('Deve ser um número'))
-        .typeError(t('Deve ser um número'))
+        .integer(t('Somente números'))
+        .typeError(t('Somente números'))
         .positive(t('Número deve ser positivo'))
-        .max(500, t('Deve ser menor que 500'))
+        .max(45, t('Deve ser menor que 500'))
+        .moreThan(0, t('Mínimo de 1 dia'))
         .required(t('Obrigatório')),
       description: Yup.string()
         .max(200, t('Máximo 200 caracteres'))
@@ -115,10 +125,9 @@ export default function Symptoms({ onPressNext }) {
   }
 
   function isFormInvalid() {
-    const { age, weight } = values
     return !(
-      age &&
-      weight &&
+      values.age &&
+      values.sick_days &&
       hasLocation &&
       selectedSymptoms.size &&
       !Object.keys(errors).length &&
@@ -134,6 +143,17 @@ export default function Symptoms({ onPressNext }) {
           {t('Localização aproximada necessária.')}
         </Alert>
       )}
+      <Modal isOpen={showModal}>
+        <WelcomeContainer>
+          <Typography variant="h4">{t('Symptoms:Welcome')}</Typography>
+          <Typography>{t('Symptoms:Intro')}</Typography>
+        </WelcomeContainer>
+        <ActionContainer>
+          <Button onClick={() => setShowModal(false)} fullWidth>
+            {t('Fechar')}
+          </Button>
+        </ActionContainer>
+      </Modal>
       <Paper>
         <SubTitleContainer>
           <Typography variant="h4">{t('Seus dados')}</Typography>
@@ -181,18 +201,18 @@ export default function Symptoms({ onPressNext }) {
             fullWidth
             required
             type="tel"
-            id="weight"
+            id="sick_days"
             pattern="[0-9]"
-            name="weight"
-            label={t('Peso(kg)')}
+            name="sick_days"
+            label={t('Quantos dias tem sintomas?')}
             aria-label={t('Insira peso em kilogramas')}
             onBlur={handleBlur}
-            error={touched.weight && errors.weight}
+            error={touched.sick_days && errors.sick_days}
             onChange={handleChange}
           />
-          {touched.weight && errors.weight && (
+          {touched.sick_days && errors.sick_days && (
             <Typography variant="caption" color="error">
-              {errors.weight}
+              {errors.sick_days}
             </Typography>
           )}
         </FieldContainer>
@@ -233,7 +253,7 @@ export default function Symptoms({ onPressNext }) {
             type="text"
             id="description"
             name="description"
-            label={t('Conte mais sobre seu caso')}
+            label={t('Conte seus primeiros sintomas')}
             aria-label={t('Conte mais sobre seu caso')}
             onBlur={handleBlur}
             error={touched.description && errors.description}
@@ -282,6 +302,15 @@ export default function Symptoms({ onPressNext }) {
         >
           {t('Próximo')}
         </Button>
+
+        <HelpBtnContainer>
+          <IconButton
+            aria-label="add to shopping cart"
+            onClick={() => setShowModal(true)}
+          >
+            <HelpIcon />
+          </IconButton>
+        </HelpBtnContainer>
       </ActionContainer>
       <NotesContainer>
         <Typography variant="caption">

@@ -30,3 +30,9 @@ export const ActionContainer = styled.div`
   margin-top: 20px;
   padding-bottom: 20px;
 `
+
+export const AlertContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+

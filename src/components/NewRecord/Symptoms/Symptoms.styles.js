@@ -45,3 +45,16 @@ export const NotesContainer = styled.section`
   padding: 20px;
   padding-bottom: 20px;
 `
+
+export const WelcomeContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+`
+
+export const HelpBtnContainer = styled.span`
+  margin-left: 10px;
+  padding: 20px;
+  padding-bottom: 20px;
+`
